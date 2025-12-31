@@ -6,7 +6,7 @@ import { setAccessID } from '../state/accessState';
 // Prevents browser default to enforce central state sync.
 export function initAccessRadios() {
   const radios = document.querySelectorAll<HTMLInputElement>(
-    'input[type="radio"][name="WebinarOptions"]'
+    'input[type="radio"][name="WebinarOptionsSelector"]'
   );
   radios.forEach((radio) => {
     radio.addEventListener('click', (event) => {
