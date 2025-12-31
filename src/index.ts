@@ -13,8 +13,7 @@ import { initPhoneValidation } from './scripts/validation/phoneField/phoneValida
 const PAGE_PATH = window.location.pathname;
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Ceci est un commentaire de test
-
+  // Ceci est un commentaire de test pour la release
   // Initialize modals
   initModals();
 
