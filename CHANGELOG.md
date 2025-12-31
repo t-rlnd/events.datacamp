@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.6
+
+### Patch Changes
+
+- 8dfb8af: Update Radio Targets
+
 ## 0.0.5
 
 ### Patch Changes
