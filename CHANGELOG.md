@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.7
+
+### Patch Changes
+
+- 7ce7c1f: Patch Radio System
+
 ## 0.0.6
 
 ### Patch Changes
