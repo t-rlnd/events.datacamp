@@ -2,16 +2,18 @@
 
 import { setAccessID } from '../state/accessState';
 
-// Attach click listener on all radios to update global accessID.
-// Prevents browser default to enforce central state sync.
+// Attach change listener on all radios to update global accessID.
+// Uses 'change' event to ensure form state is updated before syncing.
 export function initAccessRadios() {
   const radios = document.querySelectorAll<HTMLInputElement>(
     'input[type="radio"][name="webinarOptionsSelector"]'
   );
   radios.forEach((radio) => {
-    radio.addEventListener('click', (event) => {
-      event.preventDefault();
-      setAccessID(radio.value);
+    radio.addEventListener('change', (event) => {
+      const target = event.target as HTMLInputElement;
+      if (target.checked) {
+        setAccessID(target.value);
+      }
     });
   });
 }
@@ -26,5 +28,6 @@ export function updateRadiosFromAccess(accessID: string) {
     const checked = input.value === accessID;
     input.checked = checked;
     visual.classList.toggle('w--redirected-checked', checked);
+    visual.classList.toggle('w--redirected-focused', checked);
   });
 }

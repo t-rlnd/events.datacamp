@@ -3,6 +3,7 @@ import { initAccessRadios } from './scripts/ui/accessRadios';
 import { updateConditionalDisplay } from './scripts/ui/conditionalDisplay';
 import { initFormSubmitListener } from './scripts/ui/formSubmit';
 import { initModals } from './scripts/ui/modals';
+import { addStagingPrefix } from './scripts/ui/pageName';
 import { initAccessFromURL } from './scripts/users/access';
 import { initFormDataStorage } from './scripts/users/formDataStorage';
 import { initFormsState } from './scripts/users/formsState';
@@ -13,7 +14,8 @@ import { initPhoneValidation } from './scripts/validation/phoneField/phoneValida
 const PAGE_PATH = window.location.pathname;
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Ceci est un commentaire de test pour la release
+  // Add "STAGING" prefix to page name if on staging
+  addStagingPrefix(document.title);
   // Initialize modals
   initModals();
 
