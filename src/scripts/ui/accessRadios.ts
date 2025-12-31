@@ -5,7 +5,9 @@ import { setAccessID } from '../state/accessState';
 // Attach click listener on all radios to update global accessID.
 // Prevents browser default to enforce central state sync.
 export function initAccessRadios() {
-  const radios = document.querySelectorAll<HTMLInputElement>('input[type="radio"][name="access"]');
+  const radios = document.querySelectorAll<HTMLInputElement>(
+    'input[type="radio"][name="WebinarOptions"]'
+  );
   radios.forEach((radio) => {
     radio.addEventListener('click', (event) => {
       event.preventDefault();
