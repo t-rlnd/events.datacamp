@@ -57,8 +57,5 @@
   },
   "engines": {
     "pnpm": ">=10"
-  },
-  "publishConfig": {
-    "provenance": true
   }
 }
