@@ -1,20 +1,20 @@
 {
-  "name": "@finsweet/developer-starter",
+  "name": "@initweb-fr/datacamp",
   "version": "0.0.0",
-  "description": "Developer starter template for Finsweet projects.",
-  "homepage": "https://github.com/finsweet/developer-starter#readme",
+  "description": "Custom Code for Datacamp Webflow Ecosystem.",
+  "homepage": "https://github.com/initweb-fr/datacamp#readme",
   "license": "ISC",
   "keywords": [],
   "author": {
-    "name": "Finsweet",
-    "url": "https://finsweet.com/"
+    "name": "initWeb",
+    "url": "https://initweb.fr/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/finsweet/developer-starter.git"
+    "url": "git+https://github.com/initweb-fr/datacamp.git"
   },
   "bugs": {
-    "url": "https://github.com/finsweet/developer-starter/issues"
+    "url": "https://github.com/initweb-fr/datacamp/issues"
   },
   "type": "module",
   "main": "src/index.ts",
