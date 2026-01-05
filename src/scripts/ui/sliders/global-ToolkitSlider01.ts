@@ -1,9 +1,6 @@
 import Swiper from 'swiper';
 import { Autoplay, Pagination } from 'swiper/modules';
 
-import { getCurrentBreakpoint } from './utils/breakpoints';
-import { verifySliderInit } from './utils/initalization';
-
 function toolkitSlider01Config(element: HTMLElement): Swiper | null {
   const paginationEl = element.querySelector<HTMLElement>('.swiper-pagination.v-toolkit-01');
 
@@ -27,6 +24,16 @@ function toolkitSlider01Config(element: HTMLElement): Swiper | null {
       dynamicBullets: false,
       dynamicMainBullets: 1,
     },
+
+    // Breakpoints : paramètres selon la taille d'écran
+    breakpoints: {
+      0: {
+        // Mobile et tablet (< 992px)
+      },
+      992: {
+        // Desktop (>= 992px)
+      },
+    },
   });
 }
 
@@ -36,32 +43,11 @@ function toolkitSlider01Config(element: HTMLElement): Swiper | null {
  */
 export function toolkitSlider01() {
   const sliders = document.querySelectorAll<HTMLElement>('.swiper.v-toolkit-01');
-  if (!sliders.length) {
-    return;
-  }
-  const swiperInstances = new Map<HTMLElement, Swiper>();
 
-  function initSliders() {
-    const currentBreakpoint = getCurrentBreakpoint();
-
-    sliders.forEach((sliderEl) => {
-      const shouldInit = verifySliderInit(sliderEl, currentBreakpoint);
-      const existingInstance = swiperInstances.get(sliderEl);
-
-      if (shouldInit && !existingInstance) {
-        // Initialiser le slider
-        const swiper = toolkitSlider01Config(sliderEl);
-        if (swiper) {
-          swiperInstances.set(sliderEl, swiper);
-        }
-      } else if (!shouldInit && existingInstance) {
-        // Détruire le slider si la condition n'est plus remplie
-        existingInstance.destroy(true, true);
-        swiperInstances.delete(sliderEl);
-      }
-    });
-  }
-
-  // Initialisation au chargement
-  initSliders();
+  sliders.forEach((sliderEl) => {
+    // Initialiser seulement si on est sur mobile ou tablet (< 992px)
+    if (window.innerWidth < 992) {
+      toolkitSlider01Config(sliderEl);
+    }
+  });
 }

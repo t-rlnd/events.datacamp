@@ -12,13 +12,17 @@ export function verifySliderInit(element: HTMLElement, currentBreakpoint: string
   const normalizedValue = initFromValue.toLowerCase().trim();
 
   // Vérifier selon la valeur de l'attribut et le breakpoint actuel
+  // Logique hiérarchique : tablet couvre mobile et tablet, desktop couvre tout
   switch (normalizedValue) {
     case 'desktop':
-      return currentBreakpoint === 'desktop';
+      // Desktop couvre tablet, mobile et desktop
+      return true;
     case 'tablet':
-      return currentBreakpoint === 'tablet';
+      // Tablet couvre mobile et tablet
+      return currentBreakpoint === 'mobile' || currentBreakpoint === 'tablet';
     case 'mobile':
-      return true; // Mobile s'applique à toutes les tailles
+      // Mobile couvre seulement mobile
+      return currentBreakpoint === 'mobile';
     default:
       // Valeur non reconnue, initialiser par défaut
       return true;
