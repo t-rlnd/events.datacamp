@@ -1,9 +1,15 @@
+import './index.css';
+
 import { initAccessButtons } from './scripts/ui/accessButtons';
 import { initAccessRadios } from './scripts/ui/accessRadios';
 import { updateConditionalDisplay } from './scripts/ui/conditionalDisplay';
 import { initFormSubmitListener } from './scripts/ui/formSubmit';
-import { initModals } from './scripts/ui/modals';
+import { initModals } from './scripts/ui/modals/modals';
 import { addStagingPrefix } from './scripts/ui/pageName';
+/** Sliders */
+import { toolkitSlider01 } from './scripts/ui/sliders/global-ToolkitSlider01';
+import { inCardExpertsSlider } from './scripts/ui/sliders/inCard-ExpertsSlider';
+/** End Sliders */
 import { initAccessFromURL } from './scripts/users/access';
 import { initFormDataStorage } from './scripts/users/formDataStorage';
 import { initFormsState } from './scripts/users/formsState';
@@ -17,6 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add "STAGING" prefix to page name if on staging
   addStagingPrefix(document.title);
   // Initialize modals
+
+  // Initialize Sliders
+
+  toolkitSlider01();
+  inCardExpertsSlider();
+
   initModals();
 
   // Access control (URL, radio, button)

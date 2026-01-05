@@ -1,0 +1,21 @@
+.swiper.v-slider-card-experts {
+  li {
+    list-style: none;
+  }
+  .swiper-pagination-bullet {
+    width: 0.5rem !important;
+    height: 0.5rem !important;
+    border-radius: 0.5rem !important;
+    background-color: #05192D;
+    opacity: 0.2;
+    padding: 0 !important;
+    margin-right: 0.25rem !important;
+  }
+  .swiper-pagination-bullet-active {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: #05192D;
+    opacity: 1;
+  }
+}

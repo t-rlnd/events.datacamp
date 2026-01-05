@@ -23,6 +23,7 @@ export function updateConditionalDisplay() {
   document.querySelectorAll<HTMLElement>('[data-show-if-form]').forEach((el) => {
     const keys = getKeys(el.dataset.showIfForm);
     const shouldShow = isAnyFormSubmitted(pagePath, keys);
+    //console.log('shouldShow', shouldShow);
     el.style.display = shouldShow ? 'flex' : 'none';
   });
 
@@ -31,6 +32,7 @@ export function updateConditionalDisplay() {
   document.querySelectorAll<HTMLElement>('[data-hide-if-form]').forEach((el) => {
     const keys = getKeys(el.dataset.hideIfForm);
     const shouldHide = isAnyFormSubmitted(pagePath, keys);
+    //console.log('shouldHide', shouldHide);
     el.style.display = shouldHide ? 'none' : 'flex';
   });
 }

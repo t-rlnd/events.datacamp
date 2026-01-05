@@ -22,7 +22,7 @@
   "files": [
     "dist"
   ],
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.27.0",
   "scripts": {
     "dev": "cross-env NODE_ENV=development node ./bin/build.js",
     "build": "cross-env NODE_ENV=production node ./bin/build.js",
@@ -53,7 +53,9 @@
     "typescript-eslint": "^8.23.0"
   },
   "dependencies": {
-    "@finsweet/ts-utils": "^0.40.0"
+    "@finsweet/ts-utils": "^0.40.0",
+    "@splidejs/splide": "^4.1.4",
+    "swiper": "^12.0.3"
   },
   "engines": {
     "pnpm": ">=10"
