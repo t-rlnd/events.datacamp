@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.8
+
+### Patch Changes
+
+- 6ad621c: Updates on Sliders
+
 ## 0.0.7
 
 ### Patch Changes
