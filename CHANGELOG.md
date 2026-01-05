@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.9
+
+### Patch Changes
+
+- 43d429f: Patch Slider Init
+
 ## 0.0.8
 
 ### Patch Changes
