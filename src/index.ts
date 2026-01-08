@@ -11,7 +11,6 @@ import { addStagingPrefix } from './scripts/ui/pageName';
 import { inCardExpertsSlider } from './scripts/ui/sliders/cardExpertsSlider';
 import { sqlR2RSlider01 } from './scripts/ui/sliders/globalSqlr2rSlider01';
 import { toolkitSlider01 } from './scripts/ui/sliders/globalToolkitSlider01';
-/** End Sliders */
 import { initAccessFromURL } from './scripts/users/access';
 import { initFormDataStorage } from './scripts/users/formDataStorage';
 import { initFormsState } from './scripts/users/formsState';
@@ -19,9 +18,9 @@ import { initEmailValidation } from './scripts/validation/emailField/emailValida
 import { initPhoneFields } from './scripts/validation/phoneField/phoneField';
 import { initPhoneValidation } from './scripts/validation/phoneField/phoneValidation';
 
-const PAGE_PATH = window.location.pathname;
-
 document.addEventListener('DOMContentLoaded', () => {
+  const PAGE_PATH = window.location.pathname;
+
   // Add "STAGING" prefix to page name if on staging
   addStagingPrefix(document.title);
 
