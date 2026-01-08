@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.11
+
+### Patch Changes
+
+- c954561: Patch Sliders
+
 ## 0.0.10
 
 ### Patch Changes
