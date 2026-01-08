@@ -38,6 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initAccessRadios();
   initAccessButtons();
 
+  // Initialize forms state (tracking of form submissions) - MUST be called before updateConditionalDisplay
+  initFormsState({
+    storageKey: 'dc_forms_data',
+  });
+
   // Update UI based on conditions (conditional display)
   updateConditionalDisplay();
 
@@ -51,11 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initFormDataStorage({
     storageKey: 'dc_user_data',
     fieldsToSave: ['firstName', 'lastName', 'jobTitle', 'company', 'companyEmail'],
-  });
-
-  // Initialize forms state (tracking of form submissions)
-  initFormsState({
-    storageKey: 'dc_forms_data',
   });
 
   // Forms management
