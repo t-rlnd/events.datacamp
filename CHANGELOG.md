@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.10
+
+### Patch Changes
+
+- 671b0cf: Update Modal System & Conditional Visibility System
+
 ## 0.0.9
 
 ### Patch Changes
