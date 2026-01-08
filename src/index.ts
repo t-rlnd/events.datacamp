@@ -8,11 +8,9 @@ import { initAccessRadios } from './scripts/ui/accessRadios';
 import { updateConditionalDisplay } from './scripts/ui/conditionalDisplay';
 import { initModals } from './scripts/ui/modals/modals';
 import { addStagingPrefix } from './scripts/ui/pageName';
+import { inCardExpertsSlider } from './scripts/ui/sliders/cardExpertsSlider';
 import { sqlR2RSlider01 } from './scripts/ui/sliders/globalSqlr2rSlider01';
-/** Sliders */
 import { toolkitSlider01 } from './scripts/ui/sliders/globalToolkitSlider01';
-q;
-import { inCardExpertsSlider } from './scripts/ui/sliders/inCardExpertsSlider';
 /** End Sliders */
 import { initAccessFromURL } from './scripts/users/access';
 import { initFormDataStorage } from './scripts/users/formDataStorage';
