@@ -1,14 +1,17 @@
 import './index.css';
 
+/** Forms */
+import { initFormSubmitListener } from './scripts/forms/formSubmit';
+import { addMarketoFormID } from './scripts/forms/marketo';
 import { initAccessButtons } from './scripts/ui/accessButtons';
 import { initAccessRadios } from './scripts/ui/accessRadios';
 import { updateConditionalDisplay } from './scripts/ui/conditionalDisplay';
-import { initFormSubmitListener } from './scripts/ui/formSubmit';
 import { initModals } from './scripts/ui/modals/modals';
 import { addStagingPrefix } from './scripts/ui/pageName';
+import { sqlR2RSlider01 } from './scripts/ui/sliders/global-sqlr2rSlider01';
 /** Sliders */
-import { toolkitSlider01 } from './scripts/ui/sliders/global-ToolkitSlider01';
-import { inCardExpertsSlider } from './scripts/ui/sliders/inCard-ExpertsSlider';
+import { toolkitSlider01 } from './scripts/ui/sliders/global-toolkitSlider01';
+import { inCardExpertsSlider } from './scripts/ui/sliders/inCard-expertsSlider';
 /** End Sliders */
 import { initAccessFromURL } from './scripts/users/access';
 import { initFormDataStorage } from './scripts/users/formDataStorage';
@@ -25,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize modals
 
   // Initialize Sliders
-
+  sqlR2RSlider01();
   toolkitSlider01();
   inCardExpertsSlider();
 
@@ -56,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     storageKey: 'dc_forms_data',
   });
 
-  // Listen to form submissions
+  // Forms management
+  addMarketoFormID();
   initFormSubmitListener(PAGE_PATH);
 });

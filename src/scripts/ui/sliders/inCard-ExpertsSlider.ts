@@ -17,7 +17,7 @@ function inCardExpertsSliderConfig(element: HTMLElement): Swiper | null {
     speed: 1000,
     loop: true,
     slidesPerView: 1,
-    spaceBetween: 0,
+    spaceBetween: 24,
     pagination: {
       enabled: true,
       el: paginationEl,

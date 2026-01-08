@@ -1,7 +1,7 @@
 import { getAccessID } from '../state/accessState';
+import { updateConditionalDisplay } from '../ui/conditionalDisplay';
 import { saveFormFieldsOnSubmit } from '../users/formDataStorage';
 import { updateFormsJSONAfterSubmit } from '../users/formsState';
-import { updateConditionalDisplay } from './conditionalDisplay';
 
 // Initialize listener to handle all form submissions on the page
 export function initFormSubmitListener(pagePath: string) {

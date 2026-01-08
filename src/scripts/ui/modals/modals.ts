@@ -1,60 +1,85 @@
-// Prevents background scroll when modal is open
-function lockBodyScroll() {
-  document.body.style.overflow = 'hidden';
+/**
+ * DC MODAL SYSTEM
+ * ----------------
+ * Modales pilotées uniquement via des attributs data-dc-*.
+ * Classes = CSS | data-dc-* = JavaScript
+ *
+ * STRUCTURE
+ * - data-dc-modal                → racine du composant
+ * - data-dc-modal-id="id"        → identifiant unique
+ * - data-dc-modal-element="..."  → overlay | wrapper | content | close
+ *
+ * ACTIONS
+ * - data-dc-modal-open           → ouvrir
+ * - data-dc-modal-close          → fermer
+ * - data-dc-modal-toggle         → toggle
+ * - data-dc-modal-target="id"    → modale ciblée
+ *
+ * STATE / OPTIONS
+ * - data-dc-modal-state="open|closed"
+ * - data-dc-modal-close-on-overlay="true|false"
+ * - data-dc-modal-close-on-esc="true|false"
+ * - data-dc-modal-lock-scroll="true|false"
+ *
+ * Notes : toujours data-dc-*, jamais de classes pour le JS.
+ */
+
+import { lockBodyScroll, unlockBodyScroll } from '../utils/bodyScroll';
+
+// Récupère la modale correspondante à un identifiant donné
+function getModalById(id: string): HTMLElement | null {
+  return document.querySelector<HTMLElement>(`[data-dc-modal][data-dc-modal-id="${id}"]`);
 }
 
-// Restores page scroll state
-function unlockBodyScroll() {
-  document.body.style.overflow = '';
+// Vérifie si au moins une modale est actuellement ouverte
+function isAnyModalOpen(): boolean {
+  return Boolean(document.querySelector('[data-dc-modal-state="open"]'));
 }
 
-// Opens the modal matching the given id
+// Ouvre la modale d'identifiant spécifié (affiche et applique l'état ouvert)
 function openModal(id: string) {
-  const targetModal = document.querySelector<HTMLElement>(
-    `[dc-modal-element="wrapper"][dc-modal-id="${id}"]`
-  );
-  if (targetModal) {
-    targetModal.style.display = 'flex';
-    targetModal.setAttribute('data-modal-open', 'true');
-    lockBodyScroll();
-    // Optionally: sync radios or other UI here when modal opens
-  }
+  const modal = getModalById(id);
+  if (!modal) return;
+
+  modal.style.display = 'flex';
+  modal.setAttribute('data-dc-modal-state', 'open');
+
+  lockBodyScroll();
 }
 
-// Closes the provided modal; unlocks scroll if no more modals are open
+// Ferme la modale spécifiée (masque et applique l'état fermé)
 function closeModal(modal: HTMLElement) {
-  // Cacher la modale après la réinitialisation
   modal.style.display = 'none';
-  modal.setAttribute('data-modal-open', 'false');
+  modal.setAttribute('data-dc-modal-state', 'closed');
 
-  // Check if any modal is still open
-  const stillOpen = document.querySelector('[data-modal-open="true"]');
-  if (!stillOpen) {
+  if (!isAnyModalOpen()) {
     unlockBodyScroll();
   }
 }
 
-// Initializes modal open/close behaviors
+// Initialise tous les événements d'ouverture et de fermeture des modales sur la page
 export function initModals() {
-  // Selectors for modal open buttons and overlay close areas
-  const modalButtons = document.querySelectorAll('[dc-button-action="modal"]');
-  const overlays = document.querySelectorAll('[dc-modal-element="overlay"]');
-
-  // Open modal on button click
-  modalButtons.forEach((button) => {
-    button.addEventListener('click', (e) => {
+  /* ---------- OPEN ---------- */
+  document.querySelectorAll<HTMLElement>('[data-dc-modal-open]').forEach((trigger) => {
+    trigger.addEventListener('click', (e) => {
       e.preventDefault();
-      const modalId = button.getAttribute('dc-modal-id');
-      if (modalId) openModal(modalId);
+
+      const targetId = trigger.dataset.dcModalTarget;
+      if (targetId) {
+        openModal(targetId);
+      }
     });
   });
 
-  // Close modal when clicking the overlay
-  overlays.forEach((overlay) => {
-    overlay.addEventListener('click', (e) => {
+  /* ---------- CLOSE ---------- */
+  document.querySelectorAll<HTMLElement>('[data-dc-modal-close]').forEach((trigger) => {
+    trigger.addEventListener('click', (e) => {
       e.preventDefault();
-      const modal = overlay.closest<HTMLElement>('[dc-modal-element="wrapper"][dc-modal-id]');
-      if (modal) closeModal(modal as HTMLElement);
+
+      const modal = trigger.closest<HTMLElement>('[data-dc-modal]');
+      if (modal) {
+        closeModal(modal);
+      }
     });
   });
 }

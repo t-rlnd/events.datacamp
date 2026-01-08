@@ -1,6 +1,31 @@
 import { isFormSubmitted } from '../users/formsState';
 
-// Parse a comma-separated string and return non-empty trimmed keys as an array.
+/**
+ * DC CONDITIONAL DISPLAY
+ * ---------------------
+ * Affiche ou cache des éléments selon des règles data-driven.
+ * data-dc-* = JavaScript | classes = CSS
+ *
+ * STRUCTURE
+ * - data-dc-conditional                  → racine du comportement
+ * - data-dc-conditional-rule             → type de règle (ex: form-submitted)
+ * - data-dc-conditional-action="show|hide"
+ * - data-dc-conditional-keys="a, b, c"   → clés métier (dataset)
+ *
+ * LOGIQUE
+ * - action="show" → visible si condition vraie
+ * - action="hide" → caché si condition vraie
+ * - comportement inverse si condition fausse
+ *
+ * Exemple
+ * <div
+ *   data-dc-conditional
+ *   data-dc-conditional-rule="form-submitted"
+ *   data-dc-conditional-action="hide"
+ *   data-dc-conditional-keys="global, learners"
+ * ></div>
+ */
+
 function getKeys(value?: string): string[] {
   if (!value) return [];
   return value
@@ -9,30 +34,28 @@ function getKeys(value?: string): string[] {
     .filter(Boolean);
 }
 
-// Returns true if any of the provided keys were submitted for this pagePath.
 function isAnyFormSubmitted(pagePath: string, keys: string[]): boolean {
   return keys.some((key) => isFormSubmitted(pagePath, key));
 }
 
-// Update the visibility of elements based on form submission state and conditional attributes.
 export function updateConditionalDisplay() {
   const pagePath = window.location.pathname;
 
-  // Handle all elements with [data-show-if-form]:
-  // Show the element if any associated forms for those keys are submitted; hide otherwise.
-  document.querySelectorAll<HTMLElement>('[data-show-if-form]').forEach((el) => {
-    const keys = getKeys(el.dataset.showIfForm);
-    const shouldShow = isAnyFormSubmitted(pagePath, keys);
-    //console.log('shouldShow', shouldShow);
-    el.style.display = shouldShow ? 'flex' : 'none';
-  });
+  document.querySelectorAll<HTMLElement>('[data-dc-conditional]').forEach((el) => {
+    const rule = el.dataset.dcConditionalRule;
+    const action = el.dataset.dcConditionalAction;
+    const keys = getKeys(el.dataset.dcConditionalKeys);
 
-  // Handle all elements with [data-hide-if-form]:
-  // Hide the element if any associated forms for those keys are submitted; show otherwise.
-  document.querySelectorAll<HTMLElement>('[data-hide-if-form]').forEach((el) => {
-    const keys = getKeys(el.dataset.hideIfForm);
-    const shouldHide = isAnyFormSubmitted(pagePath, keys);
-    //console.log('shouldHide', shouldHide);
-    el.style.display = shouldHide ? 'none' : 'flex';
+    if (!rule || !action || keys.length === 0) return;
+
+    let conditionMet = false;
+
+    if (rule === 'form-submitted') {
+      conditionMet = isAnyFormSubmitted(pagePath, keys);
+    }
+
+    const shouldShow = (conditionMet && action === 'show') || (!conditionMet && action === 'hide');
+
+    el.style.display = shouldShow ? 'flex' : 'none';
   });
 }

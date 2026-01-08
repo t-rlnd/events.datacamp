@@ -3,10 +3,10 @@
 import { setAccessID } from '../state/accessState';
 
 export function initAccessButtons() {
-  const buttons = document.querySelectorAll<HTMLElement>('[dc-access-id]');
+  const buttons = document.querySelectorAll<HTMLElement>('[data-dc-options-selector]');
   buttons.forEach((button) => {
     button.addEventListener('click', () => {
-      const accessID = button.getAttribute('dc-access-id');
+      const accessID = button.getAttribute('data-dc-options-selector');
       if (accessID) setAccessID(accessID);
     });
   });
