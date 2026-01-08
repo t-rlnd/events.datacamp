@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.12
+
+### Patch Changes
+
+- 115e621: Patch Script Load order
+
 ## 0.0.11
 
 ### Patch Changes
