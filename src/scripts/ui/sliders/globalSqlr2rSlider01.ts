@@ -24,6 +24,7 @@ function sqlR2RSlider01Config(element: HTMLElement): Swiper | null {
     pagination: {
       enabled: true,
       el: paginationEl,
+      clickable: true,
       dynamicBullets: false,
       dynamicMainBullets: 1,
     },

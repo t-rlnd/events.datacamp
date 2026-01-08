@@ -24,13 +24,8 @@ const PAGE_PATH = window.location.pathname;
 document.addEventListener('DOMContentLoaded', () => {
   // Add "STAGING" prefix to page name if on staging
   addStagingPrefix(document.title);
+
   // Initialize modals
-
-  // Initialize Sliders
-  sqlR2RSlider01();
-  toolkitSlider01();
-  inCardExpertsSlider();
-
   initModals();
 
   // Access control (URL, radio, button)
@@ -50,6 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initPhoneFields(); // Phone field input UI
   initPhoneValidation(); // Phone input validation
   initEmailValidation(); // Email input validation
+
+  // Initialize Sliders
+  sqlR2RSlider01();
+  toolkitSlider01();
+  inCardExpertsSlider();
 
   // Save form data to localStorage on form submission
   // Les données sont stockées dans un JSON unique : { user: { firstName: xxx, lastName: xxx, ... } }
