@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.14
+
+### Patch Changes
+
+- c8440da: Create new global system for Resources01
+
 ## 0.0.13
 
 ### Patch Changes
