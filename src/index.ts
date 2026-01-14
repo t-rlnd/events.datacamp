@@ -9,6 +9,7 @@ import { updateConditionalDisplay } from './scripts/ui/conditionalDisplay';
 import { initModals } from './scripts/ui/modals/modals';
 import { addStagingPrefix } from './scripts/ui/pageName';
 import { inCardExpertsSlider } from './scripts/ui/sliders/cardExpertsSlider';
+import { resources01Slider } from './scripts/ui/sliders/globalResources01Slider';
 import { sqlR2RSlider01 } from './scripts/ui/sliders/globalSqlr2rSlider01';
 import { toolkitSlider01 } from './scripts/ui/sliders/globalToolkitSlider01';
 import { initAccessFromURL } from './scripts/users/access';
@@ -17,7 +18,6 @@ import { initFormsState } from './scripts/users/formsState';
 import { initEmailValidation } from './scripts/validation/emailField/emailValidation';
 import { initPhoneFields } from './scripts/validation/phoneField/phoneField';
 import { initPhoneValidation } from './scripts/validation/phoneField/phoneValidation';
-
 document.addEventListener('DOMContentLoaded', () => {
   const PAGE_PATH = window.location.pathname;
 
@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
   sqlR2RSlider01();
   toolkitSlider01();
   inCardExpertsSlider();
+  resources01Slider(); // Resources 01 slider
 
   // Save form data to localStorage on form submission
   // Les données sont stockées dans un JSON unique : { user: { firstName: xxx, lastName: xxx, ... } }

@@ -1,4 +1,4 @@
-.swiper.v-slider-card-experts {
+.swiper.v-slider-card-experts, .swiper.v-incard-experts01, .swiper[data-dc-slider-config="incard-experts01"] {
   li {
     list-style: none;
   }

@@ -33,6 +33,9 @@ function inCardExpertsSliderConfig(element: HTMLElement): Swiper | null {
 }
 
 export function inCardExpertsSlider() {
+  // Pour sélectionner les deux types d'éléments (".swiper.v-slider-card-experts" ET ".swiper[data-dc-slider-config=\"incard-experts01\"]"),
+  // on peut utiliser un sélecteur CSS séparé par une virgule dans querySelectorAll (ce qui équivaut à "OU").
+  // Pour obtenir les deux types dans un seul NodeList :
   const inCardExpertsSliders = document.querySelectorAll<HTMLElement>(
     '.swiper.v-slider-card-experts'
   );
