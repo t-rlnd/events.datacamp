@@ -91,9 +91,20 @@ export function resources01Slider() {
   });
   // Sliders experts dans les cards
   expertsInResources01CardSliders.forEach((sliderEl) => {
-    $;
     if (window.innerWidth < 992) {
-      resources01ExpertsInCardSliderConfig(sliderEl);
+      const slides = sliderEl.querySelectorAll('.swiper-slide');
+      if (slides.length > 1) {
+        resources01ExpertsInCardSliderConfig(sliderEl);
+      } else {
+        // Détruire la pagination s'il y a moins de 2 slides
+        const paginationEl = sliderEl.querySelector<HTMLElement>(
+          '.swiper-pagination[data-dc-slider-config="resources01-experts01"]'
+        );
+        if (paginationEl) {
+          paginationEl.innerHTML = '';
+          paginationEl.style.display = 'none';
+        }
+      }
     }
   });
 }
