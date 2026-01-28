@@ -6,6 +6,7 @@ import { addMarketoFormID } from './scripts/forms/marketo';
 import { initAccessButtons } from './scripts/ui/accessButtons';
 import { initAccessRadios } from './scripts/ui/accessRadios';
 import { updateConditionalDisplay } from './scripts/ui/conditionalDisplay';
+import { initDropdowns } from './scripts/ui/dropdowns/dropdowns';
 import { initModals } from './scripts/ui/modals/modals';
 import { addStagingPrefix } from './scripts/ui/pageName';
 import { experts01Slider } from './scripts/ui/sliders/globalExperts01Slider';
@@ -45,6 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initPhoneFields(); // Phone field input UI
   initPhoneValidation(); // Phone input validation
   initEmailValidation(); // Email input validation
+
+  // Initialize Dropdowns
+  initDropdowns();
 
   // Initialize Sliders
   sqlR2RSlider01();
