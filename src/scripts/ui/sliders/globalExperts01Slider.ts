@@ -59,7 +59,7 @@ function experts01SliderConfig(element: HTMLElement): Swiper | null {
       reverseDirection: reverseDirection,
     },
   });
-  /*
+
   // Fallback JS event pour la pause au hover si jamais pauseOnMouseEnter n'est pas pris en charge
   // (Swiper >= 8 le supporte nativement, mais au cas où c'est old, fallback)
   element.addEventListener('mouseenter', () => {
@@ -95,7 +95,6 @@ function experts01SliderConfig(element: HTMLElement): Swiper | null {
       swiper.autoplay.start();
     }
   });
-  */
 
   return swiper;
 }
