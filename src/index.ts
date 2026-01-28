@@ -8,10 +8,11 @@ import { initAccessRadios } from './scripts/ui/accessRadios';
 import { updateConditionalDisplay } from './scripts/ui/conditionalDisplay';
 import { initModals } from './scripts/ui/modals/modals';
 import { addStagingPrefix } from './scripts/ui/pageName';
-import { inCardExpertsSlider } from './scripts/ui/sliders/cardExpertsSlider';
+import { experts01Slider } from './scripts/ui/sliders/globalExperts01Slider';
 import { resources01Slider } from './scripts/ui/sliders/globalResources01Slider';
 import { sqlR2RSlider01 } from './scripts/ui/sliders/globalSqlr2rSlider01';
 import { toolkitSlider01 } from './scripts/ui/sliders/globalToolkitSlider01';
+import { inCardExpertsSlider } from './scripts/ui/sliders/incardExpertsSlider';
 import { initAccessFromURL } from './scripts/users/access';
 import { initFormDataStorage } from './scripts/users/formDataStorage';
 import { initFormsState } from './scripts/users/formsState';
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
   toolkitSlider01();
   inCardExpertsSlider();
   resources01Slider(); // Resources 01 slider
+  experts01Slider();
 
   // Save form data to localStorage on form submission
   // Les données sont stockées dans un JSON unique : { user: { firstName: xxx, lastName: xxx, ... } }
