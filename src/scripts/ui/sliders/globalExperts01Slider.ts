@@ -60,8 +60,6 @@ function experts01SliderConfig(element: HTMLElement): Swiper | null {
     },
   });
 
-  // Fallback JS event pour la pause au hover si jamais pauseOnMouseEnter n'est pas pris en charge
-  // (Swiper >= 8 le supporte nativement, mais au cas où c'est old, fallback)
   element.addEventListener('mouseenter', () => {
     if (swiper.autoplay && swiper.autoplay.running) {
       swiper.autoplay.stop();
