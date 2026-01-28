@@ -33,7 +33,7 @@ function experts01SliderConfig(element: HTMLElement): Swiper | null {
   } else {
     reverseDirection = false;
   }
-
+  // Récupérer la vitesse depuis l'attribut data-dc-slider-speed
   const speedAttr = element.getAttribute('data-dc-slider-speed');
   let speed = 2000;
   if (speedAttr) {
@@ -55,43 +55,9 @@ function experts01SliderConfig(element: HTMLElement): Swiper | null {
     autoplay: {
       delay: 0,
       disableOnInteraction: false,
-      pauseOnMouseEnter: true, // Ajout pour la pause au survol
+      pauseOnMouseEnter: true,
       reverseDirection: reverseDirection,
     },
-  });
-
-  element.addEventListener('mouseenter', () => {
-    if (swiper.autoplay && swiper.autoplay.running) {
-      swiper.autoplay.stop();
-    }
-  });
-  element.addEventListener('mouseleave', () => {
-    if (swiper.autoplay && !swiper.autoplay.running) {
-      swiper.autoplay.start();
-    }
-  });
-
-  // Pause le défilement quand l'utilisateur drag/swipe (interagit avec le slider)
-  swiper.on('touchStart', () => {
-    if (swiper.autoplay && swiper.autoplay.running) {
-      swiper.autoplay.stop();
-    }
-  });
-  swiper.on('touchEnd', () => {
-    if (swiper.autoplay && !swiper.autoplay.running) {
-      swiper.autoplay.start();
-    }
-  });
-
-  swiper.on('sliderFirstMove', () => {
-    if (swiper.autoplay && swiper.autoplay.running) {
-      swiper.autoplay.stop();
-    }
-  });
-  swiper.on('touchEnd', () => {
-    if (swiper.autoplay && !swiper.autoplay.running) {
-      swiper.autoplay.start();
-    }
   });
 
   return swiper;
