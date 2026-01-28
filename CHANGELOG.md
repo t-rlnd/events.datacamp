@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.15
+
+### Patch Changes
+
+- 8dc4d3a: Update for the Radar AI Human landing page
+
 ## 0.0.14
 
 ### Patch Changes
