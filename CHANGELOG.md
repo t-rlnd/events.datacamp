@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.16
+
+### Patch Changes
+
+- 35cbff7: Update from QA on Resources/Experts for resize functions
+
 ## 0.0.15
 
 ### Patch Changes
