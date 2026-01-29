@@ -9,8 +9,8 @@ import { updateConditionalDisplay } from './scripts/ui/conditionalDisplay';
 import { initDropdowns } from './scripts/ui/dropdowns/dropdowns';
 import { initModals } from './scripts/ui/modals/modals';
 import { addStagingPrefix } from './scripts/ui/pageName';
-import { experts01Slider } from './scripts/ui/sliders/globalExperts01Slider';
-import { resources01Slider } from './scripts/ui/sliders/globalResources01Slider';
+import { globalExperts01Slider } from './scripts/ui/sliders/globalExperts01Slider';
+import { globalResources01Slider } from './scripts/ui/sliders/globalResources01Slider';
 import { sqlR2RSlider01 } from './scripts/ui/sliders/globalSqlr2rSlider01';
 import { toolkitSlider01 } from './scripts/ui/sliders/globalToolkitSlider01';
 import { inCardExpertsSlider } from './scripts/ui/sliders/incardExpertsSlider';
@@ -20,51 +20,55 @@ import { initFormsState } from './scripts/users/formsState';
 import { initEmailValidation } from './scripts/validation/emailField/emailValidation';
 import { initPhoneFields } from './scripts/validation/phoneField/phoneField';
 import { initPhoneValidation } from './scripts/validation/phoneField/phoneValidation';
-document.addEventListener('DOMContentLoaded', () => {
-  const PAGE_PATH = window.location.pathname;
 
-  // Add "STAGING" prefix to page name if on staging
-  addStagingPrefix(document.title);
-
-  // Initialize modals
-  initModals();
-
-  // Access control (URL, radio, button)
-  initAccessFromURL();
-  initAccessRadios();
-  initAccessButtons();
-
-  // Initialize forms state (tracking of form submissions) - MUST be called before updateConditionalDisplay
-  initFormsState({
-    storageKey: 'dc_forms_data',
-  });
-
-  // Update UI based on conditions (conditional display)
-  updateConditionalDisplay();
-
-  // Initialize form fields and validation
-  initPhoneFields(); // Phone field input UI
-  initPhoneValidation(); // Phone input validation
-  initEmailValidation(); // Email input validation
-
-  // Initialize Dropdowns
-  initDropdowns();
-
-  // Initialize Sliders
+function initSliders() {
   sqlR2RSlider01();
   toolkitSlider01();
   inCardExpertsSlider();
-  resources01Slider(); // Resources 01 slider
-  experts01Slider();
+  globalResources01Slider(); // Resources 01 slider
+  globalExperts01Slider();
+}
 
-  // Save form data to localStorage on form submission
-  // Les données sont stockées dans un JSON unique : { user: { firstName: xxx, lastName: xxx, ... } }
+function initAccess() {
+  initAccessFromURL();
+  initAccessRadios();
+  initAccessButtons();
+}
+
+function initForms(pagePath: string) {
+  addMarketoFormID();
+  initFormSubmitListener(pagePath);
   initFormDataStorage({
     storageKey: 'dc_user_data',
     fieldsToSave: ['firstName', 'lastName', 'jobTitle', 'company', 'companyEmail'],
   });
+  initFormsState({
+    storageKey: 'dc_forms_data',
+  });
+  initPhoneFields();
+  initPhoneValidation();
+  initEmailValidation();
+}
 
-  // Forms management
-  addMarketoFormID();
-  initFormSubmitListener(PAGE_PATH);
+document.addEventListener('DOMContentLoaded', () => {
+  const pagePath = window.location.pathname;
+
+  // Add "STAGING" prefix to page name if on staging
+  addStagingPrefix(document.title);
+
+  initModals();
+  updateConditionalDisplay();
+  initDropdowns();
+
+  // Access control (URL, radio, button)
+  initAccess();
+  // Initialize forms state (tracking of form submissions) - MUST be called before updateConditionalDisplay
+  initForms(pagePath);
+
+  // Initialize Sliders
+  initSliders();
+});
+
+window.addEventListener('resize', () => {
+  initSliders();
 });

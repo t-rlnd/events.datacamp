@@ -2,7 +2,7 @@ import Swiper from 'swiper';
 import { Autoplay } from 'swiper/modules';
 
 /**
- * Duplique les slides X fois pour garantir un flux continu (effet marquee)
+ * Duplicates the slides multiple times to ensure a continuous marquee effect.
  */
 function duplicateSlides(wrapper: HTMLElement, times: number = 3): void {
   const originalSlides = Array.from(wrapper.querySelectorAll('.swiper-slide'));
@@ -14,35 +14,31 @@ function duplicateSlides(wrapper: HTMLElement, times: number = 3): void {
 }
 
 /**
- * Effet "marquee" / bandeau défilant continu
- * - Slides dupliquées manuellement pour avoir du contenu d'avance
- * - Transition linéaire (pas de ralentissement)
- * - Pas de pause entre les slides
- * - Ajout : pause du défilement au survol du slider
- * - Ajout : support du drag (touch et souris)
+ * Creates a "marquee" continuous scrolling effect:
+ * - Duplicate slides for seamless looping
+ * - Linear transition, no pause between slides
+ * - Autoplay stops on hover
+ * - Drag/swipe enabled for touch and mouse
  */
-function experts01SliderConfig(element: HTMLElement): Swiper | null {
+function globalExperts01SliderConfig(element: HTMLElement): Swiper | null {
   const wrapper = element.querySelector<HTMLElement>('.swiper-wrapper');
   if (!wrapper) return null;
 
-  // Récupérer la direction depuis l'attribut data-dc-slider-direction
+  // Determine direction. If "ltr", reverse. Default false.
   const directionAttr = element.getAttribute('data-dc-slider-direction');
-  let reverseDirection = false;
-  if (directionAttr === 'ltr') {
-    reverseDirection = true;
-  } else {
-    reverseDirection = false;
-  }
-  // Récupérer la vitesse depuis l'attribut data-dc-slider-speed
+  const reverseDirection = directionAttr === 'ltr';
+
+  // Get speed from attribute or use default
   const speedAttr = element.getAttribute('data-dc-slider-speed');
   let speed = 2000;
   if (speedAttr) {
-    speed = parseInt(speedAttr);
+    speed = parseInt(speedAttr, 10);
   }
-  // Duplique les slides 3x pour avoir ~4 sets au total (ajuste si besoin)
-  duplicateSlides(wrapper, 3);
 
-  // Force la transition linéaire (sinon Swiper utilise ease-out)
+  // Duplicate slides twice for more continuous content
+  duplicateSlides(wrapper, 2);
+
+  // Force linear transition for continuous effect
   wrapper.style.transitionTimingFunction = 'linear';
 
   const swiper = new Swiper(element, {
@@ -50,12 +46,12 @@ function experts01SliderConfig(element: HTMLElement): Swiper | null {
     slidesPerView: 'auto',
     spaceBetween: 24,
     loop: true,
-    speed: speed, // Vitesse du défilement (plus élevé = plus lent)
-    allowTouchMove: true, // ==> Permet le drag / swipe par souris et touch
+    speed: speed, // Higher value = slower scroll
+    allowTouchMove: true, // Enable drag/swipe on both mouse and touch
     autoplay: {
       delay: 0,
       disableOnInteraction: false,
-      pauseOnMouseEnter: true,
+      // No pause on mouse enter to keep continuous marquee
       reverseDirection: reverseDirection,
     },
   });
@@ -64,17 +60,14 @@ function experts01SliderConfig(element: HTMLElement): Swiper | null {
 }
 
 /**
- * Initialise les sliders globaux (.v-toolkit-01) sur mobile/tablette.
- * À appeler une fois le DOM chargé.
+ * Initialize global sliders (.v-toolkit-01) for mobile/tablet.
+ * Call after DOM is loaded.
  */
-export function experts01Slider() {
-  // Sliders principaux
+export function globalExperts01Slider() {
   const experts01Sliders = document.querySelectorAll<HTMLElement>(
     '.swiper[data-dc-slider-config="experts01"]'
   );
-
-  // Sliders principaux
   experts01Sliders.forEach((sliderEl) => {
-    experts01SliderConfig(sliderEl);
+    globalExperts01SliderConfig(sliderEl);
   });
 }

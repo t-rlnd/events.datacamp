@@ -1,7 +1,7 @@
 import Swiper from 'swiper';
 import { Autoplay, Pagination } from 'swiper/modules';
 
-function resources01SliderConfig(element: HTMLElement): Swiper | null {
+function globalResources01SliderConfig(element: HTMLElement): Swiper | null {
   const paginationEl = element.querySelector<HTMLElement>(
     '.swiper-pagination[dc-slider-config="resources01"]'
   );
@@ -41,7 +41,7 @@ function resources01SliderConfig(element: HTMLElement): Swiper | null {
   });
 }
 
-function resources01ExpertsInCardSliderConfig(element: HTMLElement): Swiper | null {
+function inCardExpertsInResources01SliderConfig(element: HTMLElement): Swiper | null {
   // Rechercher la pagination associée à ce slider enfant .v-slider-card-experts
   // La pagination peut être dans le slider ou dans son parent immédiat
   // Mais il faut éviter de prendre la pagination du slider parent (v-toolkit-01)
@@ -73,7 +73,7 @@ function resources01ExpertsInCardSliderConfig(element: HTMLElement): Swiper | nu
  * Initialise les sliders globaux (.v-toolkit-01) sur mobile/tablette.
  * À appeler une fois le DOM chargé.
  */
-export function resources01Slider() {
+export function globalResources01Slider() {
   // Sliders principaux
   const resources01Sliders = document.querySelectorAll<HTMLElement>(
     '.swiper[data-dc-slider-config="resources01"]'
@@ -86,15 +86,16 @@ export function resources01Slider() {
   // Sliders principaux
   resources01Sliders.forEach((sliderEl) => {
     if (window.innerWidth < 992) {
-      resources01SliderConfig(sliderEl);
+      globalResources01SliderConfig(sliderEl);
     }
   });
+
   // Sliders experts dans les cards
   expertsInResources01CardSliders.forEach((sliderEl) => {
     if (window.innerWidth < 992) {
       const slides = sliderEl.querySelectorAll('.swiper-slide');
       if (slides.length > 1) {
-        resources01ExpertsInCardSliderConfig(sliderEl);
+        inCardExpertsInResources01SliderConfig(sliderEl);
       } else {
         // Détruire la pagination s'il y a moins de 2 slides
         const paginationEl = sliderEl.querySelector<HTMLElement>(

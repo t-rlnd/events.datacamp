@@ -1,13 +1,9 @@
 export function initDropdowns() {
-  // 1. Sélectionne toutes les listes de Dropdowns
   const dropdownsLists = document.querySelectorAll('[data-dc-element="dropdown-list"]');
-  console.log(dropdownsLists);
 
   dropdownsLists.forEach((dropdownsList) => {
-    // 2. Sélectionne tous les Dropdowns dans la liste actuelle
     const dropdowns = dropdownsList.querySelectorAll('[data-dc-element="dropdown"]');
 
-    // Initialise tous les dropdowns avec l'attribut data-dc-status vide
     dropdowns.forEach((dropdown) => {
       dropdown.removeAttribute('data-dc-status');
     });
@@ -29,19 +25,19 @@ export function initDropdowns() {
       if (dropdownToggle && dropdownContent) {
         // 4. Ajoute un écouteur d'événement de clic sur l'élément "Toggle"
         dropdownToggle.addEventListener('click', () => {
-          // Si le dropdown est déjà actif, on le ferme et on arrête l'exécution
-          if (dropdown.getAttribute('data-dc-status') === 'active') {
-            dropdown.removeAttribute('data-dc-status');
-
-            return;
-          }
+          const status = dropdown.getAttribute('data-dc-status');
           // Supprime l'attribut status="active" de tous les dropdowns
           dropdowns.forEach((openedDropdown) => {
             openedDropdown.removeAttribute('data-dc-status');
           });
-
-          // Ajoute l'attribut status="active" uniquement sur le dropdown cliqué
-          dropdown.setAttribute('data-dc-status', 'active');
+          // Si le dropdown est déjà actif, on le ferme et on arrête l'exécution
+          if (status === 'active') {
+            console.log('Fermeture du dropdown');
+            dropdown.removeAttribute('data-dc-status');
+          } else {
+            console.log('Ouverture du dropdown');
+            dropdown.setAttribute('data-dc-status', 'active');
+          }
         });
       }
     });
