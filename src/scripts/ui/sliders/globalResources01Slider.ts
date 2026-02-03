@@ -14,10 +14,10 @@ function globalResources01SliderConfig(element: HTMLElement): Swiper | null {
     spaceBetween: 24,
 
     // --- Drag + Snap ---
-    freeMode: false, // IMPORTANT → snap activé
+    freeMode: false,
     grabCursor: true,
     touchRatio: 1,
-    threshold: 5, // évite les micro-drags
+    threshold: 5,
     resistance: true,
     resistanceRatio: 0.6,
 
@@ -29,22 +29,14 @@ function globalResources01SliderConfig(element: HTMLElement): Swiper | null {
       dynamicMainBullets: 1,
     },
 
-    // Breakpoints : paramètres selon la taille d'écran
     breakpoints: {
-      0: {
-        // Mobile et tablet (< 992px)
-      },
-      992: {
-        // Desktop (>= 992px)
-      },
+      0: {},
+      992: {},
     },
   });
 }
 
 function inCardExpertsInResources01SliderConfig(element: HTMLElement): Swiper | null {
-  // Rechercher la pagination associée à ce slider enfant .v-slider-card-experts
-  // La pagination peut être dans le slider ou dans son parent immédiat
-  // Mais il faut éviter de prendre la pagination du slider parent (v-toolkit-01)
   const paginationEl = element.querySelector<HTMLElement>(
     '.swiper-pagination[data-dc-slider-config="resources01-experts01"]'
   );
@@ -96,15 +88,6 @@ export function globalResources01Slider() {
       const slides = sliderEl.querySelectorAll('.swiper-slide');
       if (slides.length > 1) {
         inCardExpertsInResources01SliderConfig(sliderEl);
-      } else {
-        // Détruire la pagination s'il y a moins de 2 slides
-        const paginationEl = sliderEl.querySelector<HTMLElement>(
-          '.swiper-pagination[data-dc-slider-config="resources01-experts01"]'
-        );
-        if (paginationEl) {
-          paginationEl.innerHTML = '';
-          paginationEl.style.display = 'none';
-        }
       }
     }
   });

@@ -69,6 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initSliders();
 });
 
+let lastWidth = window.innerWidth;
 window.addEventListener('resize', () => {
-  initSliders();
+  if (window.innerWidth !== lastWidth) {
+    lastWidth = window.innerWidth;
+    initSliders();
+  }
 });
