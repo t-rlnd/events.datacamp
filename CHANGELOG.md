@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.18
+
+### Patch Changes
+
+- 80f3019: Patch Experts Slider
+
 ## 0.0.17
 
 ### Patch Changes
