@@ -4,8 +4,6 @@ import { Autoplay } from 'swiper/modules';
 /**
  * Duplicates the slides multiple times to ensure a continuous marquee effect.
  */
-/* Old function to duplicate slides 
-
 function duplicateSlides(wrapper: HTMLElement, times: number = 3): void {
   const originalSlides = Array.from(wrapper.querySelectorAll('.swiper-slide'));
   for (let i = 0; i < times; i++) {
@@ -14,8 +12,6 @@ function duplicateSlides(wrapper: HTMLElement, times: number = 3): void {
     });
   }
 }
-
-*/
 
 /**
  * Creates a "marquee" continuous scrolling effect:
@@ -39,6 +35,9 @@ function globalExperts01SliderConfig(element: HTMLElement): Swiper | null {
     speed = parseInt(speedAttr, 10);
   }
 
+  // Duplicate slides twice for more continuous content
+  duplicateSlides(wrapper, 2);
+
   // Force linear transition for continuous effect
   wrapper.style.transitionTimingFunction = 'linear';
 
@@ -47,11 +46,12 @@ function globalExperts01SliderConfig(element: HTMLElement): Swiper | null {
     slidesPerView: 'auto',
     spaceBetween: 24,
     loop: true,
-    speed: speed,
-    allowTouchMove: false,
+    speed: speed, // Higher value = slower scroll
+    allowTouchMove: true, // Enable drag/swipe on both mouse and touch
     autoplay: {
       delay: 0,
       disableOnInteraction: false,
+      // No pause on mouse enter to keep continuous marquee
       reverseDirection: reverseDirection,
     },
   });
