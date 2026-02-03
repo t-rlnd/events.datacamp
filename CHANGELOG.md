@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.17
+
+### Patch Changes
+
+- 6f17a53: Optimization on the Experts Slider
+
 ## 0.0.16
 
 ### Patch Changes
