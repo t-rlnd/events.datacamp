@@ -50,14 +50,17 @@ function initForms(pagePath: string) {
   initEmailValidation();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function init() {
   const pagePath = window.location.pathname;
+  console.log('init');
+
+  // Initialize Sliders
+  initSliders();
 
   // Add "STAGING" prefix to page name if on staging
   addStagingPrefix(document.title);
 
   initModals();
-  updateConditionalDisplay();
   initDropdowns();
 
   // Access control (URL, radio, button)
@@ -65,9 +68,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize forms state (tracking of form submissions) - MUST be called before updateConditionalDisplay
   initForms(pagePath);
 
-  // Initialize Sliders
-  initSliders();
-});
+  updateConditionalDisplay();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
 
 let lastWidth = window.innerWidth;
 window.addEventListener('resize', () => {
