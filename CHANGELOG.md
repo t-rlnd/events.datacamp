@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.19
+
+### Patch Changes
+
+- 62608aa: Fix the conditionalVisibility issue
+
 ## 0.0.18
 
 ### Patch Changes
