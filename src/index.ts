@@ -5,7 +5,6 @@ import { initFormSubmitListener } from './scripts/forms/formSubmit';
 import { addMarketoFormID } from './scripts/forms/marketo';
 import { initAccessButtons } from './scripts/ui/accessButtons';
 import { initAccessRadios } from './scripts/ui/accessRadios';
-import { updateConditionalDisplay } from './scripts/ui/conditionalDisplay';
 import { initDropdowns } from './scripts/ui/dropdowns/dropdowns';
 import { initModals } from './scripts/ui/modals/modals';
 import { addStagingPrefix } from './scripts/ui/pageName';
@@ -65,10 +64,7 @@ function init() {
 
   // Access control (URL, radio, button)
   initAccess();
-  // Initialize forms state (tracking of form submissions) - MUST be called before updateConditionalDisplay
   initForms(pagePath);
-
-  updateConditionalDisplay();
 }
 
 if (document.readyState === 'loading') {

@@ -34,6 +34,7 @@ export function initPhoneFields(): void {
       autoPlaceholder: 'polite',
       formatOnDisplay: true,
       dropdownContainer: document.body,
+      useFullscreenPopup: false,
     });
 
     // Bridge for other scripts (validation, submit, etc.)
