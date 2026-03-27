@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.20
+
+### Patch Changes
+
+- 6490a05: Fix persistant form state and phone select field
+
 ## 0.0.19
 
 ### Patch Changes
