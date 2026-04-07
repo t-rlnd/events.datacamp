@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.21
+
+### Patch Changes
+
+- 21af495: Unlock everything with an url query
+
 ## 0.0.20
 
 ### Patch Changes
