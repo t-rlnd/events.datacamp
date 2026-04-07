@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.0.22
+
+### Patch Changes
+
+- 22e5679: Fix conditional Visibility
+
 ## 0.0.21
 
 ### Patch Changes
