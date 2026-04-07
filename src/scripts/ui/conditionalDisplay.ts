@@ -1,3 +1,4 @@
+import { getAccessID } from '../state/accessState';
 import { isFormSubmitted } from '../users/formsState';
 
 /**
@@ -8,7 +9,7 @@ import { isFormSubmitted } from '../users/formsState';
  *
  * STRUCTURE
  * - data-dc-conditional                  → racine du comportement
- * - data-dc-conditional-rule             → type de règle (ex: form-submitted)
+ * - data-dc-conditional-rule             → type de règle (ex: form-submitted, access)
  * - data-dc-conditional-action="show|hide"
  * - data-dc-conditional-keys="a, b, c"   → clés métier (dataset)
  *
@@ -17,12 +18,23 @@ import { isFormSubmitted } from '../users/formsState';
  * - action="hide" → caché si condition vraie
  * - comportement inverse si condition fausse
  *
- * Exemple
+ * RÈGLES DISPONIBLES
+ * - form-submitted → vérifie si un des formulaires listés a été soumis
+ * - access         → vérifie si l'accessID courant (?access=) correspond à une des clés
+ *
+ * Exemples
  * <div
  *   data-dc-conditional
  *   data-dc-conditional-rule="form-submitted"
  *   data-dc-conditional-action="hide"
  *   data-dc-conditional-keys="global, learners"
+ * ></div>
+ *
+ * <div
+ *   data-dc-conditional
+ *   data-dc-conditional-rule="access"
+ *   data-dc-conditional-action="show"
+ *   data-dc-conditional-keys="global, unlocked"
  * ></div>
  */
 
@@ -51,7 +63,9 @@ export function updateConditionalDisplay() {
     let conditionMet = false;
 
     if (rule === 'form-submitted') {
-      conditionMet = isAnyFormSubmitted(pagePath, keys);
+      conditionMet = getAccessID() === 'unlocked' || isAnyFormSubmitted(pagePath, keys) || keys.includes(getAccessID());
+    } else if (rule === 'access') {
+      conditionMet = keys.includes(getAccessID());
     }
 
     const shouldShow = (conditionMet && action === 'show') || (!conditionMet && action === 'hide');
