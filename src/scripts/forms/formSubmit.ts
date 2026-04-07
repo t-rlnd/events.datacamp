@@ -13,8 +13,9 @@ export function initFormSubmitListener(pagePath: string) {
     form.addEventListener('submit', () => {
       // Save form fields to localStorage (if SAVE_MODE is 'submit')
       saveFormFieldsOnSubmit(form);
-      const accessID = getAccessID(); // Get current accessID
-      updateFormsJSONAfterSubmit(pagePath, accessID); // Update submission state for this form and accessID
+      const accessID = getAccessID();
+      const formKey = accessID === 'none' ? 'global' : accessID; // Default to 'global' if no URL param
+      updateFormsJSONAfterSubmit(pagePath, formKey);
       updateConditionalDisplay(); // Refresh UI elements relying on submission state
     });
   });

@@ -75,10 +75,10 @@ export function isSubmitted(formKey: string) {
   return Boolean(forms[formKey]);
 }
 
-// On load: Set accessID from URL, default to 'global'
+// On load: Set accessID from URL, default to 'none' if no param
 export function initAccessFromURL() {
   const params = new URLSearchParams(window.location.search);
-  const access = params.get(QUERY_KEY) || 'global';
+  const access = params.get(QUERY_KEY) || 'none';
   console.log('accessID from URL :', access);
   setAccessID(access);
 }
@@ -87,7 +87,7 @@ export function initAccessFromURL() {
 export function updateURLFromAccess(accessID: string) {
   const url = new URL(window.location.href);
 
-  if (accessID === 'global') {
+  if (accessID === 'none') {
     url.searchParams.delete(QUERY_KEY);
   } else {
     url.searchParams.set(QUERY_KEY, accessID);

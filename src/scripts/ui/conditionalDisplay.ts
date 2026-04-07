@@ -63,7 +63,7 @@ export function updateConditionalDisplay() {
     let conditionMet = false;
 
     if (rule === 'form-submitted') {
-      conditionMet = getAccessID() === 'unlocked' || isAnyFormSubmitted(pagePath, keys) || keys.includes(getAccessID());
+      conditionMet = isAnyFormSubmitted(pagePath, keys) || keys.includes(getAccessID());
     } else if (rule === 'access') {
       conditionMet = keys.includes(getAccessID());
     }

@@ -3,7 +3,7 @@
 import { updateRadiosFromAccess } from '../ui/accessRadios';
 import { updateURLFromAccess } from '../users/access';
 
-let accessID = 'test'; // Current access identifier
+let accessID = 'none'; // Current access identifier
 
 // Accessor for current accessID
 export function getAccessID() {
