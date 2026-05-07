@@ -19,8 +19,8 @@
  */
 
 /* ============================================
-   TYPES ET INTERFACES
-   ============================================ */
+  TYPES ET INTERFACES
+  ============================================ */
 
 /**
  * Structure des données utilisateur
@@ -53,8 +53,8 @@ export interface FormDataStorageConfig {
 }
 
 /* ============================================
-   CONFIGURATION PAR DÉFAUT
-   ============================================ */
+  CONFIGURATION PAR DÉFAUT
+  ============================================ */
 
 /**
  * Valeurs par défaut utilisées si aucune configuration n'est fournie
@@ -66,8 +66,8 @@ const DEFAULT_CONFIG: Required<FormDataStorageConfig> = {
 };
 
 /* ============================================
-   VARIABLES GLOBALES
-   ============================================ */
+  VARIABLES GLOBALES
+  ============================================ */
 
 /**
  * Configuration actuelle du module (valeurs par défaut ou personnalisées)
@@ -82,8 +82,8 @@ let config: Required<FormDataStorageConfig> = { ...DEFAULT_CONFIG };
 let formData: FormData = { user: {} };
 
 /* ============================================
-   FONCTIONS UTILITAIRES (INTERNES)
-   ============================================ */
+  FONCTIONS UTILITAIRES (INTERNES)
+  ============================================ */
 
 /**
  * Affiche un message d'erreur dans la console
@@ -238,8 +238,8 @@ function migrateOldData(oldStorageKey: string): void {
 }
 
 /* ============================================
-   API PUBLIQUE (FONCTIONS EXPORTÉES)
-   ============================================ */
+  API PUBLIQUE (FONCTIONS EXPORTÉES)
+  ============================================ */
 
 /**
  * Récupère la valeur d'un champ depuis les données sauvegardées
@@ -265,6 +265,15 @@ export function getFieldValue(fieldName: string): string | undefined {
 export function getAllFormData(): FormData {
   // Retourner une copie pour éviter que l'extérieur modifie les données internes
   return { ...formData };
+}
+
+/**
+ * Saves or updates one explicit user field in localStorage.
+ * Useful for computed fields that are not direct form inputs.
+ */
+export function saveUserDataField(fieldName: string, fieldValue: string): void {
+  formData.user[fieldName] = fieldValue;
+  saveFormData(formData);
 }
 
 /**
@@ -397,10 +406,6 @@ export function initFormDataStorage(userConfig?: FormDataStorageConfig): void {
   // Étape 3 : Migrer les données de l'ancien format si elles existent
   // On essaie de migrer depuis l'ancienne clé 'user_form_data'
   migrateOldData('user_form_data');
-  // On essaie aussi de migrer depuis la clé actuelle si elle est différente de la clé par défaut
-  if (config.storageKey !== 'form_data') {
-    migrateOldData(config.storageKey);
-  }
 
   // Étape 4 : Restaurer les valeurs dans les champs du formulaire
   restoreFormValues();

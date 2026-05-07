@@ -1,6 +1,6 @@
 // Handles UI radio buttons controlling access, and syncs their checked state.
 
-import { setAccessID } from '../state/accessState';
+import { setAccessID } from '../../state/accessState';
 
 // Attach change listener on all radios to update global accessID.
 // Uses 'change' event to ensure form state is updated before syncing.

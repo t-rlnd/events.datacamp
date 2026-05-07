@@ -1,6 +1,6 @@
 // Handles UI buttons that change global accessID state.
 // Finds all elements with [dc-access-id], adds click handlers to update access.
-import { setAccessID } from '../state/accessState';
+import { setAccessID } from '../../state/accessState';
 
 export function initAccessButtons() {
   const buttons = document.querySelectorAll<HTMLElement>('[data-dc-options-selector]');

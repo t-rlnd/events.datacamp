@@ -2,7 +2,8 @@
  * Clé utilisée pour stocker les données dans localStorage
  * Peut être modifiée via initFormsState()
  */
-let storageKey = 'dc_forms_data';
+let storageKey = 'dc_forms_state';
+let persistOnReload = true;
 
 /**
  * Structure example:
@@ -21,6 +22,7 @@ let storageKey = 'dc_forms_data';
 export const formsState: {
   pages: {
     [pagePath: string]: {
+      scope?: string;
       forms: {
         [formKey: string]: {
           submitted: boolean;
@@ -39,16 +41,18 @@ export const formsState: {
  * @example
  * initFormsState({ storageKey: 'custom_storage_key' });
  */
-export function initFormsState(options?: { storageKey?: string }) {
-  if (options?.storageKey && options.storageKey !== storageKey) {
-    // Mettre à jour la clé de stockage
-    storageKey = options.storageKey;
-    // Recharger les données avec la nouvelle clé
-    const newState = loadFormsState();
-    // Remplacer complètement l'état existant
-    Object.keys(formsState.pages).forEach((key) => delete formsState.pages[key]);
-    Object.assign(formsState.pages, newState.pages);
+export function initFormsState(options?: { storageKey?: string; persistOnReload?: boolean }) {
+  if (typeof options?.persistOnReload === 'boolean') {
+    persistOnReload = options.persistOnReload;
   }
+
+  if (options?.storageKey && options.storageKey !== storageKey) {
+    storageKey = options.storageKey;
+  }
+
+  const newState = loadFormsState();
+  Object.keys(formsState.pages).forEach((key) => delete formsState.pages[key]);
+  Object.assign(formsState.pages, newState.pages);
 }
 
 /* -------------------------------------
@@ -60,6 +64,10 @@ export function initFormsState(options?: { storageKey?: string }) {
  * @returns Les données chargées ou un objet vide si aucune donnée n'existe
  */
 function loadFormsState() {
+  if (!persistOnReload) {
+    return { pages: {} };
+  }
+
   try {
     const jsonString = localStorage.getItem(storageKey);
     if (jsonString) {
@@ -78,6 +86,7 @@ function loadFormsState() {
  * Sauvegarde l'état actuel dans localStorage
  */
 function saveFormsState() {
+  if (!persistOnReload) return;
   localStorage.setItem(storageKey, JSON.stringify(formsState));
 }
 
@@ -95,6 +104,7 @@ export function updateFormsJSONAfterSubmit(pagePath: string, formKey: string) {
     formsState.pages[pagePath] = { forms: {} };
   }
   const { forms } = formsState.pages[pagePath];
+  formsState.pages[pagePath].scope = formKey;
 
   // If global is submitted, overwrite and mark ONLY global as submitted for this page
   if (formKey === 'global') {

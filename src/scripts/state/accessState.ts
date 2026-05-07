@@ -1,7 +1,7 @@
 // Centralized accessID state for interface access control.
 // Only modify accessID using setAccessID to keep state/global sync.
-import { updateRadiosFromAccess } from '../ui/accessRadios';
-import { updateURLFromAccess } from '../users/access';
+import { updateURLFromAccess } from '../session/access/access';
+import { updateRadiosFromAccess } from '../ui/access/accessRadios';
 
 let accessID = 'none'; // Current access identifier
 

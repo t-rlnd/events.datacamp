@@ -1,5 +1,5 @@
-import { getAccessID } from '../state/accessState';
-import { isFormSubmitted } from '../users/formsState';
+import { getAccessID } from '../../state/accessState';
+import { isFormSubmitted } from '../../session/state/formsState';
 
 /**
  * DC CONDITIONAL DISPLAY
@@ -52,24 +52,49 @@ function isAnyFormSubmitted(pagePath: string, keys: string[]): boolean {
 
 export function updateConditionalDisplay() {
   const pagePath = window.location.pathname;
+  const accessID = getAccessID();
 
-  document.querySelectorAll<HTMLElement>('[data-dc-conditional]').forEach((el) => {
-    const rule = el.dataset.dcConditionalRule;
-    const action = el.dataset.dcConditionalAction;
-    const keys = getKeys(el.dataset.dcConditionalKeys);
+  const applyConditionalDisplay = (
+    selector: string,
+    ruleKey: string | null,
+    actionKey: string,
+    keysKey: string,
+    forcedRule?: 'form-submitted' | 'access'
+  ) => {
+    document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
+      const rule = forcedRule ?? (ruleKey ? (el.dataset[ruleKey] as string | undefined) : undefined);
+      const action = el.dataset[actionKey];
+      const keys = getKeys(el.dataset[keysKey]);
 
-    if (!rule || !action || keys.length === 0) return;
+      if (!rule || !action || keys.length === 0) return;
 
-    let conditionMet = false;
+      let conditionMet = false;
 
-    if (rule === 'form-submitted') {
-      conditionMet = isAnyFormSubmitted(pagePath, keys) || keys.includes(getAccessID());
-    } else if (rule === 'access') {
-      conditionMet = keys.includes(getAccessID());
-    }
+      if (rule === 'form-submitted') {
+        conditionMet = isAnyFormSubmitted(pagePath, keys) || keys.includes(accessID);
+      } else if (rule === 'access') {
+        conditionMet = keys.includes(accessID);
+      }
 
-    const shouldShow = (conditionMet && action === 'show') || (!conditionMet && action === 'hide');
+      const shouldShow = (conditionMet && action === 'show') || (!conditionMet && action === 'hide');
+      el.style.display = shouldShow ? 'flex' : 'none';
+    });
+  };
 
-    el.style.display = shouldShow ? 'flex' : 'none';
-  });
+  // Existing generic conditional API (kept as-is).
+  applyConditionalDisplay(
+    '[data-dc-conditional]',
+    'dcConditionalRule',
+    'dcConditionalAction',
+    'dcConditionalKeys'
+  );
+
+  // New alias API for form scope only.
+  applyConditionalDisplay(
+    '[data-dc-form-scope-conditional]',
+    null,
+    'dcFormScopeAction',
+    'dcFormScopeKeys',
+    'form-submitted'
+  );
 }

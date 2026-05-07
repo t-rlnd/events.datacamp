@@ -1,4 +1,4 @@
-import { setAccessID } from '../state/accessState';
+import { setAccessID } from '../../state/accessState';
 
 const STORAGE_KEY = 'dc_state'; // LocalStorage main key
 const QUERY_KEY = 'access'; // Query param for access level
