@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 0.1.0
+
+### Minor Changes
+
+- 9cb9c8c: Update on the overall conditional display system with a tier/cat system for users based on jobtitle
+
 ## 0.0.22
 
 ### Patch Changes
