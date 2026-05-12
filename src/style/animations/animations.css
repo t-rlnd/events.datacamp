@@ -1,0 +1,31 @@
+/*
+ * Anti-FOUC for [data-dc-animate].
+ *
+ * Mirrors GSAP's `autoAlpha: 0` initial state on the elements that will be
+ * animated, so they don't flash visible before the reveal runs.
+ *
+ * Convention:
+ *  - Single-element reveals (slide-up, fade)         -> hide the element itself.
+ *  - Children reveals (children-slide-up)            -> hide the direct children.
+ *  - Desktop-only variants (`d-*`)                   -> only hide above 992px,
+ *                                                       so mobile/tablet keep
+ *                                                       their natural rendering.
+ *
+ * For zero flicker before the JS bundle loads, copy this rule into the
+ * Webflow project's <head> custom code as well.
+ */
+[data-dc-animate='slide-up'],
+[data-dc-animate='fade-in'],
+[data-dc-animate='scale-up'],
+[data-dc-animate='children-slide-up'] > * {
+  visibility: hidden;
+}
+
+@media (min-width: 992px) {
+  [data-dc-animate='d-slide-up'],
+  [data-dc-animate='d-fade-in'],
+  [data-dc-animate='d-scale-up'],
+  [data-dc-animate='d-children-slide-up'] > * {
+    visibility: hidden;
+  }
+}

@@ -1,16 +1,19 @@
 import './index.css';
 
+import { indexAnimations } from './scripts/animations/--index-animations';
 import { indexForms } from './scripts/forms/--index-forms';
 import { indexValidation } from './scripts/forms/validation/--index-validation';
 import { indexSession, type JobTitleTierKeywordConfig } from './scripts/session/--index-session';
 import { indexUI } from './scripts/ui/--index-ui';
 import { indexSliders } from './scripts/ui/sliders/--index-sliders';
 
+// Build one facade per domain so this file stays orchestration-only.
 const formsIndex = indexForms();
 const uiIndex = indexUI();
 const slidersIndex = indexSliders();
 const sessionIndex = indexSession();
 const validationIndex = indexValidation();
+const animationsIndex = indexAnimations();
 
 declare global {
   interface Window {
@@ -27,14 +30,17 @@ declare global {
 }
 
 function initAccessControls() {
+  // Read URL access params, then sync related UI controls.
   sessionIndex.initAccessFromURL();
   uiIndex.initAccessRadios();
   uiIndex.initAccessButtons();
 }
 
 function initFormFeatures(pagePath: string) {
+  // Attach form metadata and submit handlers for this page.
   formsIndex.addMarketoFormID();
   formsIndex.initFormSubmitListener(pagePath);
+  // Persist user fields and session data used across forms.
   sessionIndex.initFormDataStorage({
     storageKey: sessionIndex.USER_DATA_STORAGE_KEY,
     fieldsToSave: sessionIndex.SAVED_USER_FIELDS,
@@ -50,17 +56,27 @@ function initFormFeatures(pagePath: string) {
 }
 
 function initPageUi() {
+  // Page-level UI setup that is not tied to a specific route.
   uiIndex.addStagingPrefix(document.title);
   uiIndex.initModals();
   uiIndex.initDropdowns();
 }
 
-function initConditionalDisplays() {
+/**
+ * Base initialization
+ * -------------------
+ * This is the shared startup sequence that runs on every page.
+ */
+function runBaseInitialization(pathname: string) {
+  initAccessControls();
+  initFormFeatures(pathname);
   uiIndex.updateConditionalDisplay();
   uiIndex.updateTierConditionalDisplay();
+  animationsIndex.initAutoReveal();
 }
 
 function exposeTierApiOnWindow() {
+  // Expose debug helpers in the browser console: window.dcTierLogic.*
   window.dcTierLogic = {
     getKeywords: sessionIndex.getJobTitleTierKeywordConfig,
     updateKeywords: (overrides) => sessionIndex.updateJobTitleTierKeywordConfig(overrides),
@@ -69,6 +85,7 @@ function exposeTierApiOnWindow() {
 }
 
 function exposeEnvironmentApiOnWindow() {
+  // Expose environment helpers for quick checks from console/scripts.
   window.isStaging = sessionIndex.isStaging;
   window.isProd = sessionIndex.isProd;
   window.onStaging = sessionIndex.onStaging;
@@ -98,7 +115,7 @@ function pathStartsWithOneOf(pathname: string, prefixes: string[]): boolean {
 interface PageTrigger {
   name: string;
   match: (pathname: string) => boolean;
-  execute: (pathname: string) => void;
+  execute?: (pathname: string) => void;
 }
 
 /**
@@ -114,60 +131,63 @@ const PAGE_TRIGGERS: PageTrigger[] = [
   {
     name: 'thank-you-pages',
     match: (pathname) => pathStartsWithOneOf(pathname, ['/thank-you']),
-    execute: (pathname) => {
-      initAccessControls();
-      initFormFeatures(pathname);
-      initConditionalDisplays();
+    execute: () => {
+      animationsIndex.initThankYouAnimations();
     },
   },
   {
     name: 'default',
     match: () => true,
-    execute: (pathname) => {
-      initAccessControls();
-      initFormFeatures(pathname);
-      initConditionalDisplays();
-    },
   },
 ];
 
 /**
+ * Page-specific triggers
+ * ----------------------
  * Finds the first matching trigger and runs it.
- * If no trigger matches (should not happen because of "default"),
- * we still run safe defaults.
  */
-function runPageTriggers(pathname: string) {
+function runPageSpecificTriggers(pathname: string) {
+  // Run extra behavior only for matching pages.
   const trigger = PAGE_TRIGGERS.find((entry) => entry.match(pathname));
-  if (!trigger) {
-    initAccessControls();
-    initFormFeatures(pathname);
-    initConditionalDisplays();
-    return;
-  }
-
-  trigger.execute(pathname);
+  trigger?.execute?.(pathname);
 }
 
 function init() {
+  // Read once so downstream functions do not touch window.location directly.
   const pagePath = window.location.pathname;
 
+  // Global startup order: sliders -> shared UI -> route triggers -> global APIs.
   slidersIndex.initAllSliders();
   initPageUi();
-  runPageTriggers(pagePath);
+  runBaseInitialization(pagePath);
+  runPageSpecificTriggers(pagePath);
   exposeTierApiOnWindow();
   exposeEnvironmentApiOnWindow();
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
+/**
+ * Loading triggers
+ * ----------------
+ * These functions define when initialization should be executed.
+ */
+function wireDomReadyTrigger() {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 }
 
-let lastWidth = window.innerWidth;
-window.addEventListener('resize', () => {
-  if (window.innerWidth !== lastWidth) {
-    lastWidth = window.innerWidth;
-    slidersIndex.initAllSliders();
-  }
-});
+function wireResizeTrigger() {
+  let lastWidth = window.innerWidth;
+  // Rebuild sliders only when width changed (not on height-only resize).
+  window.addEventListener('resize', () => {
+    if (window.innerWidth !== lastWidth) {
+      lastWidth = window.innerWidth;
+      slidersIndex.initAllSliders();
+    }
+  });
+}
+
+wireDomReadyTrigger();
+wireResizeTrigger();

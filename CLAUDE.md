@@ -14,6 +14,7 @@ This file defines the high-level assistant conventions for this repository.
 3. Keep runtime/session logic under `src/scripts/session/`.
 4. Keep UI behavior under `src/scripts/ui/`.
 5. Keep configurable business data in `src/scripts/config/` (example: tier keyword lists).
+6. Keep GSAP reveal animations under `src/scripts/animations/`. Shared values (duration, ease, stagger, etc.) belong in `animations/config/animationKeys.ts` — never hard-code them in reveal files.
 
 ## Architecture Include
 

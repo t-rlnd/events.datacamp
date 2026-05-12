@@ -10,6 +10,7 @@ Keep it short, predictable, and consistent.
 - Use `src/scripts/config/` for shared constants/keys.
 - Use `src/scripts/forms/` for form submission and Marketo integration.
 - Use `src/scripts/validation/` for field and input validation logic.
+- Use `src/scripts/animations/` for GSAP-based reveal animations (scroll-triggered transitions).
 
 ## 2) Aggregator Files
 
@@ -20,6 +21,7 @@ Keep it short, predictable, and consistent.
   - `indexForms()`
   - `indexValidation()`
   - `indexSliders()`
+  - `indexAnimations()`
 - `src/index.ts` should import facades only (not deep module files).
 
 ## 3) File Naming
@@ -30,6 +32,24 @@ Keep it short, predictable, and consistent.
   - `session/tier/jobTitleTier.ts`
   - `ui/conditional/scopeConditionalDisplay.ts`
 - Avoid ambiguous domain names (`users`) when logic is session/context based.
+
+### Animations sub-layout
+
+The `animations/` domain follows a strict internal layout:
+
+- `animations/config/animationKeys.ts` — shared defaults (duration, ease, stagger, scroll start, `data-dc-animate` attribute name, breakpoint prefixes).
+- `animations/core/` — one-time setup: `gsapSetup.ts` (plugin registration, defaults) and `reducedMotion.ts` (`prefers-reduced-motion` helper).
+- `animations/reveals/` — **one file per reveal type**, each exporting a function with the same `(target, opts?: RevealOptions)` signature. Reveals are pure and DOM-agnostic.
+- `animations/auto/autoReveal.ts` — scans `[data-dc-animate]` and applies the matching reveal. Breakpoint prefixes (e.g. `d-`) are routed through `gsap.matchMedia()`.
+- `animations/pages/` — **one file per page** for bespoke reveals that can't be expressed declaratively (composed timelines, custom triggers). Each exports `initXxxAnimations()`.
+
+Declarative markup convention (Webflow side):
+
+- `data-dc-animate="slide-up"` — all breakpoints.
+- `data-dc-animate="children-slide-up"` — stagger direct children, all breakpoints.
+- `data-dc-animate="d-..."` — desktop only (≥ 992px). Same convention scales to future `t-`/`m-` prefixes.
+
+Anti-FOUC CSS for `[data-dc-animate]` lives in `src/style/animations/animations.css` and is `@import`-ed from `src/index.css`.
 
 ## 4) Constants and Keys
 
