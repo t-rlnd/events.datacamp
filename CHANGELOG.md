@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 1.0.0
+
+### Major Changes
+
+- 5b86930: Animations System
+
 ## 0.1.0
 
 ### Minor Changes
