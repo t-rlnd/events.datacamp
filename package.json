@@ -2,7 +2,7 @@
   "name": "@initweb-fr/datacamp",
   "version": "1.0.0",
   "description": "Custom Code for Datacamp Webflow Ecosystem.",
-  "homepage": "https://github.com/initweb-fr/datacamp#readme",
+  "homepage": "https://github.com/t-rlnd/events.datacamp#readme",
   "license": "ISC",
   "keywords": [],
   "author": {
@@ -11,10 +11,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/initweb-fr/datacamp.git"
+    "url": "git+https://github.com/t-rlnd/events.datacamp.git"
   },
   "bugs": {
-    "url": "https://github.com/initweb-fr/datacamp/issues"
+    "url": "https://github.com/t-rlnd/events.datacamp/issues"
   },
   "type": "module",
   "main": "src/index.ts",
@@ -22,7 +22,7 @@
   "files": [
     "dist"
   ],
-  "packageManager": "pnpm@10.27.0",
+  "packageManager": "pnpm@10.34.5",
   "scripts": {
     "dev": "cross-env NODE_ENV=development node ./bin/build.js",
     "build": "cross-env NODE_ENV=production node ./bin/build.js",
