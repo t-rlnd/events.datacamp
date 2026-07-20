@@ -1,3 +1,4 @@
+import { updateURLFromAccess } from '../../session/access/access';
 import { updateFormsJSONAfterSubmit } from '../../session/state/formsState';
 import { saveSessionDataOnSubmit } from '../../session/storage/sessionDataStorage';
 import { getAccessID } from '../../state/accessState';
@@ -34,6 +35,7 @@ export function initFormSubmitListener(pagePath: string) {
 
       const formKey = accessID === 'none' ? 'global' : accessID;
       updateFormsJSONAfterSubmit(pagePath, formKey);
+      updateURLFromAccess(formKey);
       updateConditionalDisplay();
     });
   });
