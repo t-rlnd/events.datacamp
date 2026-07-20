@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 1.0.1
+
+### Patch Changes
+
+- d13b6bc: Fix the modal exit issue
+
 ## 1.0.0
 
 ### Major Changes
