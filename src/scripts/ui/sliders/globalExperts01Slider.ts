@@ -17,56 +17,9 @@ function duplicateSlides(wrapper: HTMLElement, times: number = 3): void {
 
 */
 
-function isPauseOnHoverEnabled(element: HTMLElement): boolean {
-  return element.getAttribute('data-dc-slider-pause-on-hover')?.toLowerCase() === 'true';
-}
-
-function getWrapperTranslateX(wrapper: HTMLElement): number {
-  const transform = getComputedStyle(wrapper).transform;
-  if (!transform || transform === 'none') return 0;
-  return new DOMMatrix(transform).m41;
-}
-
-/**
- * Freezes the marquee at its current visual position. Swiper's native
- * pauseOnMouseEnter waits for the in-flight slide (speed can be 4000ms).
- *
- * Loop mode blocks slideNext while `animating` is true, so we must clear
- * that flag or autoplay never restarts on mouseleave.
- */
-function bindPauseOnHover(swiper: Swiper, element: HTMLElement): void {
-  const wrapper = swiper.wrapperEl;
-
-  const freeze = () => {
-    const currentX = getWrapperTranslateX(wrapper);
-    swiper.autoplay.stop();
-    swiper.setTransition(0);
-    swiper.setTranslate(currentX);
-    swiper.animating = false;
-  };
-
-  const unfreeze = () => {
-    swiper.animating = false;
-    swiper.setTransition(swiper.params.speed);
-    wrapper.style.transitionTimingFunction = 'linear';
-    swiper.autoplay.start();
-  };
-
-  element.addEventListener('pointerenter', (event) => {
-    if (event.pointerType !== 'mouse') return;
-    freeze();
-  });
-
-  element.addEventListener('pointerleave', (event) => {
-    if (event.pointerType !== 'mouse') return;
-    unfreeze();
-  });
-}
-
 /**
  * Creates a "marquee" continuous scrolling effect:
  * - Linear transition, no pause between slides
- * - Optional pause on hover via data-dc-slider-pause-on-hover="true"
  */
 function globalExperts01SliderConfig(element: HTMLElement): Swiper | null {
   const wrapper = element.querySelector<HTMLElement>('.swiper-wrapper');
@@ -82,8 +35,6 @@ function globalExperts01SliderConfig(element: HTMLElement): Swiper | null {
   if (speedAttr) {
     speed = parseInt(speedAttr, 10);
   }
-
-  const pauseOnHover = isPauseOnHoverEnabled(element);
 
   // Force linear transition for continuous effect
   wrapper.style.transitionTimingFunction = 'linear';
@@ -101,10 +52,6 @@ function globalExperts01SliderConfig(element: HTMLElement): Swiper | null {
       reverseDirection: reverseDirection,
     },
   });
-
-  if (pauseOnHover) {
-    bindPauseOnHover(swiper, element);
-  }
 
   return swiper;
 }
