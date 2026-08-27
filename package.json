@@ -1,6 +1,6 @@
 {
   "name": "@initweb-fr/datacamp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Custom Code for Datacamp Webflow Ecosystem.",
   "homepage": "https://github.com/t-rlnd/events.datacamp#readme",
   "license": "ISC",
@@ -19,9 +19,6 @@
   "type": "module",
   "main": "src/index.ts",
   "module": "src/index.ts",
-  "files": [
-    "dist"
-  ],
   "packageManager": "pnpm@10.34.5",
   "scripts": {
     "dev": "cross-env NODE_ENV=development node ./bin/build.js",
@@ -32,7 +29,6 @@
     "format": "prettier --write ./src",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
-    "release": "changeset publish",
     "update": "pnpm update -i -L -r"
   },
   "devDependencies": {
@@ -60,8 +56,5 @@
   },
   "engines": {
     "pnpm": ">=10"
-  },
-  "publishConfig": {
-    "provenance": false
   }
 }

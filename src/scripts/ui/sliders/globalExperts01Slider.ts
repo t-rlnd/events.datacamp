@@ -17,12 +17,37 @@ function duplicateSlides(wrapper: HTMLElement, times: number = 3): void {
 
 */
 
+function isPauseOnHoverEnabled(element: HTMLElement): boolean {
+  return element.getAttribute('data-dc-slider-pause-on-hover')?.toLowerCase() === 'true';
+}
+
+function getWrapperTranslateX(wrapper: HTMLElement): number {
+  const transform = getComputedStyle(wrapper).transform;
+  if (!transform || transform === 'none') return 0;
+  return new DOMMatrix(transform).m41;
+}
+
+/**
+ * Freezes the marquee at its current visual position. Swiper's native
+ * pauseOnMouseEnter waits for the in-flight slide (speed can be 4000ms).
+ */
+function bindPauseOnHover(swiper: Swiper, element: HTMLElement): void {
+  element.addEventListener('mouseenter', () => {
+    const currentX = getWrapperTranslateX(swiper.wrapperEl);
+    swiper.autoplay.stop();
+    swiper.setTransition(0);
+    swiper.setTranslate(currentX);
+  });
+
+  element.addEventListener('mouseleave', () => {
+    swiper.autoplay.start();
+  });
+}
+
 /**
  * Creates a "marquee" continuous scrolling effect:
- * - Duplicate slides for seamless looping
  * - Linear transition, no pause between slides
- * - Autoplay stops on hover
- * - Drag/swipe enabled for touch and mouse
+ * - Optional pause on hover via data-dc-slider-pause-on-hover="true"
  */
 function globalExperts01SliderConfig(element: HTMLElement): Swiper | null {
   const wrapper = element.querySelector<HTMLElement>('.swiper-wrapper');
@@ -38,6 +63,8 @@ function globalExperts01SliderConfig(element: HTMLElement): Swiper | null {
   if (speedAttr) {
     speed = parseInt(speedAttr, 10);
   }
+
+  const pauseOnHover = isPauseOnHoverEnabled(element);
 
   // Force linear transition for continuous effect
   wrapper.style.transitionTimingFunction = 'linear';
@@ -55,6 +82,10 @@ function globalExperts01SliderConfig(element: HTMLElement): Swiper | null {
       reverseDirection: reverseDirection,
     },
   });
+
+  if (pauseOnHover) {
+    bindPauseOnHover(swiper, element);
+  }
 
   return swiper;
 }
