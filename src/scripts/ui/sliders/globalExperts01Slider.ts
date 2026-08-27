@@ -30,17 +30,36 @@ function getWrapperTranslateX(wrapper: HTMLElement): number {
 /**
  * Freezes the marquee at its current visual position. Swiper's native
  * pauseOnMouseEnter waits for the in-flight slide (speed can be 4000ms).
+ *
+ * Loop mode blocks slideNext while `animating` is true, so we must clear
+ * that flag or autoplay never restarts on mouseleave.
  */
 function bindPauseOnHover(swiper: Swiper, element: HTMLElement): void {
-  element.addEventListener('mouseenter', () => {
-    const currentX = getWrapperTranslateX(swiper.wrapperEl);
+  const wrapper = swiper.wrapperEl;
+
+  const freeze = () => {
+    const currentX = getWrapperTranslateX(wrapper);
     swiper.autoplay.stop();
     swiper.setTransition(0);
     swiper.setTranslate(currentX);
+    swiper.animating = false;
+  };
+
+  const unfreeze = () => {
+    swiper.animating = false;
+    swiper.setTransition(swiper.params.speed);
+    wrapper.style.transitionTimingFunction = 'linear';
+    swiper.autoplay.start();
+  };
+
+  element.addEventListener('pointerenter', (event) => {
+    if (event.pointerType !== 'mouse') return;
+    freeze();
   });
 
-  element.addEventListener('mouseleave', () => {
-    swiper.autoplay.start();
+  element.addEventListener('pointerleave', (event) => {
+    if (event.pointerType !== 'mouse') return;
+    unfreeze();
   });
 }
 
