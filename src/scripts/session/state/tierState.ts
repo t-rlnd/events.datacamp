@@ -1,10 +1,10 @@
+import { USER_DATA_STORAGE_KEY } from '../../config/keys';
 import {
   getTierCategoryFromJobTitle,
   getTierFromJobTitle,
   type JobTitleCategory,
   type JobTitleTier,
 } from '../tier/jobTitleTier';
-import { USER_DATA_STORAGE_KEY } from '../../config/keys';
 
 interface UserDataPayload {
   user: Record<string, string>;
