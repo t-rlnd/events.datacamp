@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 1.0.5
+
+### Patch Changes
+
+- Add modal close on Escape key.
+
 ## 1.0.1
 
 ### Patch Changes
