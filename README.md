@@ -72,8 +72,8 @@ The bundle is hosted on [Netlify](https://www.netlify.com/). The Netlify site is
 In Webflow custom code, load the files from the Netlify site URL:
 
 ```html
-<script defer src="https://<site-name>.netlify.app/index.js"></script>
-<link href="https://<site-name>.netlify.app/index.css" rel="stylesheet" type="text/css" />
+<script defer src="https://events-datacamp.netlify.app/index.js"></script>
+<link href="https://events-datacamp.netlify.app/index.css" rel="stylesheet" type="text/css" />
 ```
 
 Netlify serves these files with revalidation on each request, so a deploy is live immediately — no CDN cache to purge and no version to bump in the URL.
