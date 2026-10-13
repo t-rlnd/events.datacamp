@@ -60,7 +60,7 @@ Live reload is enabled by default. Disable it in `bin/build.js` if needed.
 pnpm build
 ```
 
-Output lands in `dist/`.
+Output lands in `dist/`, which is not committed: Netlify runs the build on its side.
 
 ### Deployment
 

@@ -24,6 +24,5 @@ typings/
 # dotenv environment variables file
 .env
 
-# Dev sourcemaps from `pnpm dev` — production is built and served by Netlify (see netlify.toml).
-# dist/ is still committed while Webflow is being migrated off the jsDelivr URLs.
-*.map
+# Build output — production is built and served by Netlify (see netlify.toml)
+dist/
