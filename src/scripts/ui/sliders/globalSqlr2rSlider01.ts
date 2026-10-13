@@ -1,6 +1,9 @@
 import Swiper from 'swiper';
 import { Autoplay, Pagination } from 'swiper/modules';
 
+import { getCurrentBreakpoint } from './utils/breakpoints';
+import { syncSlider } from './utils/sliderRegistry';
+
 function sqlR2RSlider01Config(element: HTMLElement): Swiper | null {
   const paginationEl = element.querySelector<HTMLElement>(
     '.swiper-pagination[dc-slider-config="sqlr2r-slider-01"]'
@@ -50,10 +53,10 @@ export function sqlR2RSlider01() {
     '.swiper[dc-slider-config="sqlr2r-slider-01"]'
   );
 
+  // Actif seulement sur mobile ou tablet (< 992px), détruit au retour en desktop
+  const shouldInit = getCurrentBreakpoint() !== 'desktop';
+
   sliders.forEach((sliderEl) => {
-    // Initialiser seulement si on est sur mobile ou tablet (< 992px)
-    if (window.innerWidth < 992) {
-      sqlR2RSlider01Config(sliderEl);
-    }
+    syncSlider(sliderEl, shouldInit, sqlR2RSlider01Config);
   });
 }

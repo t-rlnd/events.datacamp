@@ -1,6 +1,9 @@
 import Swiper from 'swiper';
 import { Autoplay, Pagination } from 'swiper/modules';
 
+import { getCurrentBreakpoint } from './utils/breakpoints';
+import { syncSlider } from './utils/sliderRegistry';
+
 function globalResources01SliderConfig(element: HTMLElement): Swiper | null {
   const paginationEl = element.querySelector<HTMLElement>(
     '.swiper-pagination[dc-slider-config="resources01"]'
@@ -75,20 +78,21 @@ export function globalResources01Slider() {
     '.swiper[data-dc-slider-config="resources01-experts01"]'
   );
 
+  // Actifs seulement sur mobile ou tablet (< 992px), détruits au retour en desktop
+  const isBelowDesktop = getCurrentBreakpoint() !== 'desktop';
+
   // Sliders principaux
   resources01Sliders.forEach((sliderEl) => {
-    if (window.innerWidth < 992) {
-      globalResources01SliderConfig(sliderEl);
-    }
+    syncSlider(sliderEl, isBelowDesktop, globalResources01SliderConfig);
   });
 
   // Sliders experts dans les cards
   expertsInResources01CardSliders.forEach((sliderEl) => {
-    if (window.innerWidth < 992) {
-      const slides = sliderEl.querySelectorAll('.swiper-slide');
-      if (slides.length > 1) {
-        inCardExpertsInResources01SliderConfig(sliderEl);
-      }
-    }
+    const slides = sliderEl.querySelectorAll('.swiper-slide');
+    syncSlider(
+      sliderEl,
+      isBelowDesktop && slides.length > 1,
+      inCardExpertsInResources01SliderConfig
+    );
   });
 }

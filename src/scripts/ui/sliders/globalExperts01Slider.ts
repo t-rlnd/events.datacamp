@@ -1,6 +1,8 @@
 import Swiper from 'swiper';
 import { Autoplay } from 'swiper/modules';
 
+import { syncSlider } from './utils/sliderRegistry';
+
 /**
  * Duplicates the slides multiple times to ensure a continuous marquee effect.
  */
@@ -65,6 +67,7 @@ export function globalExperts01Slider() {
     '.swiper[data-dc-slider-config="experts01"]'
   );
   experts01Sliders.forEach((sliderEl) => {
-    globalExperts01SliderConfig(sliderEl);
+    // Actif sur tous les breakpoints : le registre évite de le ré-instancier à chaque resize
+    syncSlider(sliderEl, true, globalExperts01SliderConfig);
   });
 }
