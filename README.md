@@ -60,23 +60,22 @@ Live reload is enabled by default. Disable it in `bin/build.js` if needed.
 pnpm build
 ```
 
-Output lands in `dist/`, which is not committed: Netlify runs the build on its side.
+Output lands in `dist/`, which is committed: jsDelivr serves it straight from this GitHub repository.
 
 ### Deployment
 
-The bundle is hosted on [Netlify](https://www.netlify.com/). The Netlify site is linked to this repository and configured by [`netlify.toml`](./netlify.toml): it runs `pnpm build` and publishes `dist/`.
+The bundle is served by [jsDelivr](https://www.jsdelivr.com/) from the committed `dist/` folder, pinned to a version tag.
 
-- Every push to `master` triggers a production deploy.
-- Pull requests get a deploy preview URL, handy to test a change on the Webflow staging site before merging.
-
-In Webflow custom code, load the files from the Netlify site URL:
+1. Run `pnpm build` and commit the updated `dist/`.
+2. Tag the commit with the package version (`git tag v1.0.6`) and push the branch and the tag.
+3. Bump the version in the Webflow custom code URLs.
 
 ```html
-<script defer src="https://events-datacamp.netlify.app/index.js"></script>
-<link href="https://events-datacamp.netlify.app/index.css" rel="stylesheet" type="text/css" />
+<script defer src="https://cdn.jsdelivr.net/gh/t-rlnd/events.datacamp@v1.0.6/dist/index.js"></script>
+<link href="https://cdn.jsdelivr.net/gh/t-rlnd/events.datacamp@v1.0.6/dist/index.css" rel="stylesheet" type="text/css" />
 ```
 
-Netlify serves these files with revalidation on each request, so a deploy is live immediately — no CDN cache to purge and no version to bump in the URL.
+A tagged URL is cached permanently by jsDelivr: never move an existing tag, always cut a new one.
 
 ## Architecture
 
@@ -138,7 +137,7 @@ Tests live in `tests/`. Playwright starts `pnpm dev` automatically so files are 
 3. Open a pull request. CI runs lint, typecheck, build, and tests.
 4. After merge, a Changeset PR updates `CHANGELOG.md` and the package version. Merge that PR as well.
 
-Merging into `master` deploys to production through Netlify (see [Deployment](#deployment)). Version tags (`v*`) only create a GitHub Release for the changelog.
+Production is released by pushing a version tag (`v*`) and updating the jsDelivr URLs in Webflow (see [Deployment](#deployment)). The tag also creates a GitHub Release via GitHub Actions.
 
 ## License
 

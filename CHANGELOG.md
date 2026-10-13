@@ -1,5 +1,11 @@
 # @initweb-fr/datacamp
 
+## 1.0.6
+
+### Patch Changes
+
+- e1ffa02: Destroy mobile sliders when resizing back to desktop so slides no longer keep Swiper's inline margin-right.
+
 ## 1.0.5
 
 ### Patch Changes

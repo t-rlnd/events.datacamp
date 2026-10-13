@@ -1,7 +1,0 @@
-# Netlify builds the bundle on every push and serves dist/ (index.js + index.css) to Webflow.
-[build]
-  command = "pnpm build"
-  publish = "dist"
-
-[build.environment]
-  NODE_VERSION = "24"
