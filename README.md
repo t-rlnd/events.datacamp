@@ -62,6 +62,22 @@ pnpm build
 
 Output lands in `dist/`.
 
+### Deployment
+
+The bundle is hosted on [Netlify](https://www.netlify.com/). The Netlify site is linked to this repository and configured by [`netlify.toml`](./netlify.toml): it runs `pnpm build` and publishes `dist/`.
+
+- Every push to `master` triggers a production deploy.
+- Pull requests get a deploy preview URL, handy to test a change on the Webflow staging site before merging.
+
+In Webflow custom code, load the files from the Netlify site URL:
+
+```html
+<script defer src="https://<site-name>.netlify.app/index.js"></script>
+<link href="https://<site-name>.netlify.app/index.css" rel="stylesheet" type="text/css" />
+```
+
+Netlify serves these files with revalidation on each request, so a deploy is live immediately — no CDN cache to purge and no version to bump in the URL.
+
 ## Architecture
 
 `src/index.ts` is orchestration only. Domain logic lives under `src/scripts/` and is exposed through `--index-*` facades.
@@ -122,7 +138,7 @@ Tests live in `tests/`. Playwright starts `pnpm dev` automatically so files are 
 3. Open a pull request. CI runs lint, typecheck, build, and tests.
 4. After merge, a Changeset PR updates `CHANGELOG.md` and the package version. Merge that PR as well.
 
-Releases are cut from version tags (`v*`) via GitHub Actions.
+Merging into `master` deploys to production through Netlify (see [Deployment](#deployment)). Version tags (`v*`) only create a GitHub Release for the changelog.
 
 ## License
 
