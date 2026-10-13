@@ -57,6 +57,27 @@ function closeModal(modal: HTMLElement) {
   }
 }
 
+// Indique si la modale autorise la fermeture via la touche Échap
+function isCloseOnEscEnabled(modal: HTMLElement): boolean {
+  return modal.getAttribute('data-dc-modal-close-on-esc') !== 'false';
+}
+
+// Retourne la modale ouverte la plus récente autorisée à se fermer avec Échap
+function getTopOpenModalCloseableOnEsc(): HTMLElement | null {
+  const openModals = document.querySelectorAll<HTMLElement>(
+    '[data-dc-modal][data-dc-modal-state="open"]',
+  );
+
+  for (let index = openModals.length - 1; index >= 0; index -= 1) {
+    const modal = openModals[index];
+    if (isCloseOnEscEnabled(modal)) {
+      return modal;
+    }
+  }
+
+  return null;
+}
+
 // Initialise tous les événements d'ouverture et de fermeture des modales sur la page
 export function initModals() {
   /* ---------- OPEN ---------- */
@@ -81,5 +102,16 @@ export function initModals() {
         closeModal(modal);
       }
     });
+  });
+
+  /* ---------- ESC ---------- */
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+
+    const modal = getTopOpenModalCloseableOnEsc();
+    if (!modal) return;
+
+    e.preventDefault();
+    closeModal(modal);
   });
 }
